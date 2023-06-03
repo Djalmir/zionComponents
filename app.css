@@ -1,36 +1,56 @@
+:root {
+	--dark-bg1: #0a0a0a;
+	--dark-bg2: #242424;
+	--dark-bg3: #3f3f3f;
+	--dark-bg4: #6b6b6b;
+
+	--dark-font1: #ccc;
+	--dark-font2: #eee;
+
+	--blue: #039;
+	--light-blue: #09f;
+
+	--box-shadow: 2px 3px 5px #000000d0;
+}
+
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	border: none;
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
+	font-family: 'Albert Sans', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-size: 16px;
 }
 
 body {
-	background: #222;
-	color: #ccc;
+	background: var(--dark-bg2);
+	color: var(--dark-font1);
 	padding: 17px;
 }
 
 form {
-	background: #333;
+	background: var(--dark-bg3);
 	padding: 17px;
 	border-radius: .5rem;
 	margin: 30px auto;
 	width: fit-content;
-	box-shadow: 2px 3px 5px #000000d0;
+	box-shadow: var(--box-shadow);
 }
 
 .input {
-	background: #09f;
-	color: #fff;
-	box-shadow: 2px 3px 5px #000000d0;
-	font-size: 32px;
+	background: var(--light-blue);
+	color: var(--dark-font2);
+	box-shadow: var(--box-shadow);
 }
 
 :-webkit-autofill,
 :-webkit-autofill:hover,
 :-webkit-autofill:focus {
-	-webkit-box-shadow: inset 0 0 5px #00000070, inset 0 0 0 1000px #09f !important;
-	box-shadow: inset 0 0 5px #00000070, inset 0 0 0 1000px #09f !important;
-	-webkit-text-fill-color: #fff !important;
-	/* border-radius: 0; */
+	-webkit-box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--light-blue) !important;
+	box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--light-blue) !important;
+	-webkit-text-fill-color: var(--dark-font2) !important;
 }

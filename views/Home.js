@@ -1,10 +1,8 @@
 const style = document.createElement('style')
 style.textContent = /*css*/`
-
 	h1 {
 		text-align: center;
 	}
-
 `
 
 const template = document.createElement('template')

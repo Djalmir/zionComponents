@@ -18,7 +18,7 @@ style.innerText = /*css*/`
 		width: 100%;
 		margin: 22px 0;
 		background: #fff;
-		color: #000;
+		color: #555;
 		padding: 2px;
 		border: inherit;
 		border-radius: .2rem;
@@ -34,6 +34,7 @@ style.innerText = /*css*/`
 		transition: box-shadow .2s;
 		background: inherit;
 		color: inherit;
+		font-size: inherit;
 	}
 
 	input::placeholder {
@@ -49,25 +50,26 @@ style.innerText = /*css*/`
 	b {
 		position: absolute;
 		bottom: 100%;
-		left: 5px;
-		font-size: 14px;
+		left: 10px;
+		font-size: inherit;
+		line-height: inherit;
 		transition: all .2s ease-out, background 0s, color 0s;
 		white-space: nowrap;
 		background: inherit;
 		color: inherit;
 		border-radius: .2rem .2rem 0 0;
 		padding: 2px 5px 0;
-		line-height: 15px;
+		transform: scale(.85) translate(-15%, 15%);
 	}
 
 	input:placeholder-shown:not(:focus) ~ b {
-		bottom: 0;		
-		transform: translateY(-50%);
+		bottom: 50%;		
+		transform: translateY(50%);
 		left: 12px;
 		border: none;
 		padding: 0;
-		font-size: 16px;
-		line-height: 18px;
+		font-size: inherit;
+		line-height: inherit;
 		cursor: text;
 	}
 	
