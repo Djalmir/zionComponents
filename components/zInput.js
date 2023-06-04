@@ -5,6 +5,7 @@ style.innerText = /*css*/`
 		background: transparent!important;
 		box-shadow: none!important;
 		display: inline-block;
+		--input-left: 0;
 	}
 
 	* {
@@ -28,7 +29,7 @@ style.innerText = /*css*/`
 	input {
 		width: 100%;
 		border-radius: .1rem;
-		padding: 8px 7px;
+		padding: 5px 7px;
 		border: none;
 		outline: none;
 		transition: box-shadow .2s;
@@ -50,22 +51,22 @@ style.innerText = /*css*/`
 	b {
 		position: absolute;
 		bottom: 100%;
-		left: 10px;
+		left: 3%;
 		font-size: inherit;
 		line-height: inherit;
-		transition: all .2s ease-out, background 0s, color 0s;
+		/*transition: all .2s ease-out, background 0s, color 0s;*/
 		white-space: nowrap;
 		background: inherit;
 		color: inherit;
 		border-radius: .2rem .2rem 0 0;
 		padding: 2px 5px 0;
-		transform: scale(.85) translate(-15%, 15%);
+		transform: scale(.85) translate(-10%, 15%);
 	}
 
 	input:placeholder-shown:not(:focus) ~ b {
 		bottom: 50%;		
 		transform: translateY(50%);
-		left: 12px;
+		left: var(--input-left);
 		border: none;
 		padding: 0;
 		font-size: inherit;
@@ -78,15 +79,17 @@ style.innerText = /*css*/`
 const template = document.createElement('template')
 template.innerHTML = /*html*/`
 	<label>
-		<input type="text">
+		<slot name="left-slot"></slot>
+		<input type="text" />
 		<b></b>
+		<slot name="right-slot"></slot>
 	</label>
 `
 
 export default class zInput extends HTMLElement {
 	constructor() {
 		super()
-		this.attachShadow({mode: 'open'})
+		this.attachShadow({ mode: 'open' })
 		const globalStyles = [...Array.from(document.querySelectorAll('[rel=stylesheet]')), ...Array.from(document.querySelectorAll('head style'))]
 		globalStyles.map((style) => {
 			this.shadowRoot.appendChild(style.cloneNode(true))
@@ -140,6 +143,14 @@ export default class zInput extends HTMLElement {
 				this.shadowRoot.querySelector('input').setAttribute('maxlength', newValue)
 				break
 		}
+	}
+
+	connectedCallback() {
+		this.shadowRoot.host.style.setProperty('--input-left', this.shadowRoot.querySelector('input').getBoundingClientRect().x - this.getBoundingClientRect().x + 7 + 'px')
+		setTimeout(() => {
+			this.shadowRoot.querySelector('b').style.transition = 'all .2s ease-out, background 0s, color 0s'
+		}, 1)
+
 	}
 }
 

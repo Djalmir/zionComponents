@@ -1,46 +1,50 @@
 const style = document.createElement('style')
 style.textContent = /*css*/`
-	h1 {
-		text-align: center;
-	}
+form {
+	background: var(--dark-bg3);
+	padding: 17px;
+	border-radius: .5rem;
+	margin: 30px auto;
+	width: fit-content;
+	box-shadow: var(--box-shadow);
+}
+
 `
 
 const template = document.createElement('template')
 template.innerHTML = /*html*/`
-	<h1>{{message}}</h1>
-	<form action="javascript:void(0)">
-		<z-input id="nameInput" class="input" placeholder="Nome" z-model="name"></z-input>
-		<z-input id="phoneInput" class="input" placeholder="Telefone" z-model="phone" z-oninput="setPhoneMask"></z-input>
-	</form>
+<form action="javascript:void(0)">
+	<div class="flexDiv">
+		<z-input id="nameInput" class="primary" placeholder="Nome" z-model="name"></z-input>
+		<z-input id="phoneInput" class="primary" placeholder="Whatsapp" z-model="phone" z-oninput="setPhoneMask"></z-input>
+	</div>
+	<label style="cursor: pointer;">
+		<z-checkbox z-model="rememberUser" id="rememberUserCheckbox"></z-checkbox>
+		Lembrar usuário
+	</label>
+</form>
 `
 
 import zInput from '/components/zInput.js'
+import zCheckbox from '/components/zCheckbox.js'
 
 export default class Home extends HTMLElement {
 	constructor() {
 		super()
 		this.attachShadow({ mode: 'open' })
-		// const globalStyles = [...Array.from(document.querySelectorAll('[rel=stylesheet]')), ...Array.from(document.querySelectorAll('head style'))]
-		// globalStyles.map((style) => {
-		// 	this.shadowRoot.appendChild(style.cloneNode(true))
-		// })
+
 		this.shadowRoot.appendChild(style.cloneNode(true))
 		this.shadowRoot.appendChild(template.content.cloneNode(true))
 
-		this.watch = {
-			name: () => {
-				console.log('app.view.name: ', this.name)
-			}
-		}
-		this.message = 'Hello World!'
 		this.name = ''
 		this.phone = ''
+		this.rememberUser = true
 
 		this.setPhoneMask = (e) => setMask(e, 'cellphone')
 	}
 
 	connectedCallback() {
-		// this.shadowRoot.querySelector('z-input').value = this.name
+
 	}
 }
 
