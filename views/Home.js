@@ -196,9 +196,9 @@ template.innerHTML = /*html*/`
 </div>
 `
 
-import zInput from '/components/zInput.js'
-import zCheckbox from '/components/zCheckbox.js'
-import zIcon from '/components/zIcon.js'
+import zInput from '../components/zInput.js'
+import zCheckbox from '../components/zCheckbox.js'
+import zIcon from '../components/zIcon.js'
 
 export default class Home extends HTMLElement {
 	constructor() {
