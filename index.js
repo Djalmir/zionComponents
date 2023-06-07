@@ -3,36 +3,72 @@
 // })
 
 function mountApp(routes) {
+	if (!(app instanceof HTMLElement)) {
+		throw new ReferenceError('No router view element available for rendering')
+	}
+
+	app._darkTheme = true
+	Object.defineProperty(app, 'darkTheme', {
+		get: () => {
+			return app._darkTheme
+		},
+		set: (value) => {
+			app._darkTheme = value
+			updateAppTheme()
+			dispatchEvent('themeUpdated')
+		}
+	})
+
+	function onRouteChanged() {
+		const hash = window.location.hash
+
+		app.view = new routes[hash.split('?')[0]]()
+
+		app.view.shadowRoot.insertBefore(globalStyle, app.view.shadowRoot.firstElementChild)
+
+		while (app.firstChild)
+			app.removeChild(app.firstChild)
+		app.appendChild(app.view)
+
+		updateAppTheme()
+
+		ZION(app.view)
+	}
+
 	let globalStyle = document.createElement('style')
 	fetch('./app.css')
-		.then((res) => {return res.text()})
+		.then((res) => { return res.text() })
 		.then((res) => {
 			globalStyle.textContent = res
-
-			function onRouteChanged() {
-				const hash = window.location.hash
-
-				if (!(app instanceof HTMLElement)) {
-					throw new ReferenceError('No router view element available for rendering')
-				}
-
-				app.view = new routes[hash.split('?')[0]]()
-
-				app.view.shadowRoot.insertBefore(globalStyle, app.view.shadowRoot.firstElementChild)
-
-				while (app.firstChild)
-					app.removeChild(app.firstChild)
-				app.appendChild(app.view)
-
-				ZION(app.view)
-			}
 
 			if (!window.location.hash)
 				window.location.hash = '#/'
 
+
 			onRouteChanged()
 			window.addEventListener('hashchange', onRouteChanged)
 		})
+}
+
+function updateAppTheme() {
+	if (app.view) {
+		if (app._darkTheme) {
+			app.view.shadowRoot.querySelector('#view').classList.add('darkTheme')
+			app.view.shadowRoot.querySelector('#view').classList.remove('lightTheme')
+			app.view.shadowRoot.style = document.body.style = `
+				background: var(--dark-bg2);
+				color: var(--light-font1);
+			`
+		}
+		else {
+			app.view.shadowRoot.querySelector('#view').classList.add('lightTheme')
+			app.view.shadowRoot.querySelector('#view').classList.remove('darkTheme')
+			app.view.shadowRoot.style = document.body.style = `
+				background: var(--light-bg2);
+				color: var(--dark-font1);
+			`
+		}
+	}
 }
 
 function setMask(e, type) {
@@ -62,4 +98,8 @@ function setMask(e, type) {
 				.replace(/(\d{5})(\d)/, '$1-$2')
 			break
 	}
+}
+
+function dispatchEvent(eventName, detail) {
+	document.dispatchEvent(new CustomEvent(eventName, { detail: detail }))
 }

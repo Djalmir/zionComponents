@@ -4,23 +4,28 @@
 	--dark-bg3: #3f3f3f;
 	--dark-bg4: #6b6b6b;
 
-	--dark-font1: #cccccc;
-	--dark-font2: #eeeeee;
+	--light-bg1: #bdbdbd;
+	--light-bg2: #dddddd;
+	--light-bg3: #ededed;
+	--light-bg4: #fefefe;
 
-	--light-font1: #333333;
-	--light-font2: #555555;
+	--dark-font1: #1a1a1a;
+	--dark-font2: #3a3a3a;
 
-	--primary: #000099;
-	--primary-light: #0059ff;
+	--light-font1: #dddddd;
+	--light-font2: #fdfdfd;
 
-	--secondary: #484857;
-	--secondary-light: #8d8dac;
+	--primary: #0059ff;
+	--primary-light: #4385ff;
 
-	--danger: #990000;
-	--danger-light: #ff0033;
+	--secondary: #4e4e57;
+	--secondary-light: #a5a5b3;
 
-	--success: #009900;
-	--success-light: #00ff33;
+	--danger: #be0000;
+	--danger-light: #ff5757;
+
+	--success: #00921d;
+	--success-light: #25e94c;
 
 	--box-shadow: 1px 1px 2px #000000d0;
 }
@@ -37,71 +42,10 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-html,
 body {
 	background: var(--dark-bg2);
-	color: var(--dark-font1);
-	padding: 8px;
-	font-size: 16px;
-}
-
-h1 {
-	font-size: 26px;
-	text-align: center;
-}
-
-.primary {
-	background: var(--primary-light);
-	color: var(--dark-font2);
-	box-shadow: var(--box-shadow);
-}
-
-.primary:-webkit-autofill,
-.primary:-webkit-autofill:hover,
-.primary:-webkit-autofill:focus {
-	-webkit-box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--primary-light) !important;
-	box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--primary-light) !important;
-	-webkit-text-fill-color: var(--dark-font2) !important;
-}
-
-.secondary {
-	background: var(--secondary-light);
-	color: var(--dark-font2);
-	box-shadow: var(--box-shadow);
-}
-
-.secondary:-webkit-autofill,
-.secondary:-webkit-autofill:hover,
-.secondary:-webkit-autofill:focus {
-	-webkit-box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--secondary-light) !important;
-	box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--secondary-light) !important;
-	-webkit-text-fill-color: var(--dark-font2) !important;
-}
-
-.danger {
-	background: var(--danger-light);
-	color: var(--dark-font2);
-	box-shadow: var(--box-shadow);
-}
-
-.danger:-webkit-autofill,
-.danger:-webkit-autofill:hover,
-.danger:-webkit-autofill:focus {
-	-webkit-box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--danger-light) !important;
-	box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--danger-light) !important;
-	-webkit-text-fill-color: var(--dark-font2) !important;
-}
-
-.success {
-	background: var(--success-light);
 	color: var(--light-font1);
-	box-shadow: var(--box-shadow);
-}
-
-.success:-webkit-autofill,
-.success:-webkit-autofill:hover,
-.success:-webkit-autofill:focus {
-	-webkit-box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--success-light) !important;
-	box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--success-light) !important;
-	-webkit-text-fill-color: var(--light-font1) !important;
+	padding: 27px 0 52px;
+	font-size: 16px;
+	transition: background .4s;
 }

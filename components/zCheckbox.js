@@ -3,6 +3,11 @@ style.textContent = /*css*/`
 :host {
 	display: inline-block;
 	vertical-align: middle;
+	background: none !important;
+	border: none !important;
+	box-shadow: none !important;
+	--activeColor: var(--primary);
+	--checkColor: var(--light-font2);
 }
 
 input {
@@ -27,7 +32,7 @@ input {
 input:hover,
 input:focus {
 	box-shadow: 1px 2px 5px #000000d0;
-	border: .1em solid #0060ff;
+	border: .1em solid var(--activeColor);
 }
 
 input:active {
@@ -35,8 +40,8 @@ input:active {
 }
 
 input:checked {
-	background: #0060ff;
-	border: .1em solid #0060ff;
+	background: var(--activeColor);
+	border: .1em solid var(--activeColor);
 }
 
 input::before {
@@ -45,7 +50,7 @@ input::before {
 	height: .85em;
 	transform: scale(0);
 	transition: .18s transform ease-in-out;
-	box-shadow: inset 1em 1em #fff;
+	box-shadow: inset 1em 1em var(--checkColor);
 	clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 }
 
@@ -68,16 +73,28 @@ export default class zCheckbox extends HTMLElement {
 			this.shadowRoot.appendChild(style.cloneNode(true))
 		})
 		this.shadowRoot.appendChild(style.cloneNode(true))
+
+		let themeClasses = ['primary', 'primary-light', 'secondary', 'secondary-light', 'danger', 'danger-light', 'success', 'success-light']
+		Array.from(this.classList).map((className) => {
+			if (themeClasses.includes(className)) {
+				this.shadowRoot.host.style.setProperty('--activeColor', `var(--${ className })`)
+				if (className.includes('light')) {
+					this.shadowRoot.host.style.setProperty('--checkColor', `var(--dark-font1)`)
+				}
+			}
+		})
+
 		this.shadowRoot.appendChild(template.content.cloneNode(true))
 
 		const checkbox = this.shadowRoot.querySelector("[type='checkbox']")
 		if (this.getAttribute('id'))
 			checkbox.id = this.getAttribute('id')
-		if (this.getAttribute('class'))
-			checkbox.classList.add(this.getAttribute('class'))
+		Array.from(this.classList).map((className) => {
+			checkbox.classList.add(className)
+		})
 		checkbox.checked = this.getAttribute('checked') || this.checked
 
-		checkbox.addEventListener('click',(e)=>{e.stopPropagation()})
+		checkbox.addEventListener('click', (e) => { e.stopPropagation() })
 
 		if (this.shadowRoot.host.parentElement.tagName == 'LABEL')
 			this.shadowRoot.host.parentElement.addEventListener('click', () => { checkbox.click() })

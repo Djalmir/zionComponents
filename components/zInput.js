@@ -17,13 +17,13 @@ style.innerText = /*css*/`
 	label {
 		position: relative;
 		width: 100%;
-		margin: 22px 0;
 		background: #fff;
 		color: #555;
 		padding: 2px;
 		border: inherit;
 		border-radius: .2rem;
 		display: flex;
+		box-shadow: var(--box-shadow);
 	}
 
 	input {
@@ -73,7 +73,6 @@ style.innerText = /*css*/`
 		line-height: inherit;
 		cursor: text;
 	}
-	
 `
 
 const template = document.createElement('template')
@@ -95,15 +94,41 @@ export default class zInput extends HTMLElement {
 			this.shadowRoot.appendChild(style.cloneNode(true))
 		})
 		this.shadowRoot.appendChild(style.cloneNode(true))
+		let themeClasses = ['primary', 'primary-light', 'secondary', 'secondary-light', 'danger', 'danger-light', 'success', 'success-light']
+		Array.from(this.classList).map((className) => {
+			if (themeClasses.includes(className)) {
+				let style = document.createElement('style')
+				style.textContent = /*css*/`
+					.${ className } {
+						background: var(--${ className });
+						color: var(--${ className.includes('light') ? 'dark-font1' : 'light-font2' });
+					}
+
+					.${ className }:-webkit-autofill,
+					.${ className }:-webkit-autofill:hover,
+					.${ className }:-webkit-autofill:focus {
+						-webkit-box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--${ className }) !important;
+						box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--${ className }) !important;
+						-webkit-text-fill-color: var(--${ className.includes('light') ? 'dark-font1' : 'light-font2' }) !important;
+					}
+				`
+				this.shadowRoot.appendChild(style.cloneNode(true))
+			}
+		})
 		this.shadowRoot.appendChild(template.content.cloneNode(true))
 
-		this.shadowRoot.querySelector('label').id = this.getAttribute('id')
-		this.shadowRoot.querySelector('label').classList.add(this.getAttribute('class'))
+		if (this.getAttribute('id'))
+			this.shadowRoot.querySelector('label').id = this.getAttribute('id')
+		Array.from(this.classList).map((className) => {
+			this.shadowRoot.querySelector('label').classList.add(className)
+		})
 		this.shadowRoot.querySelector('input').value = this.getAttribute('value') || this.value
 		this.shadowRoot.querySelector('input').placeholder = this.getAttribute('placeholder') || this.placeholder
 		if (this.getAttribute('maxlength') || this.maxLength)
 			this.shadowRoot.querySelector('input').maxLength = this.getAttribute('maxlength') || this.maxLength
 		this.shadowRoot.querySelector('b').innerText = this.getAttribute('placeholder') || this.placeholder
+
+
 	}
 
 	get placeholder() {
