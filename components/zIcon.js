@@ -17,6 +17,9 @@ export default class zIcon extends HTMLElement {
 			min-height: ${ this.getAttribute('size') || this.size || 1 }rem;
 			width: ${ this.getAttribute('size') || this.size || 1 }rem;
 			height: ${ this.getAttribute('size') || this.size || 1 }rem;
+			color: inherit;
+			fill: inherit;
+			stroke: inherit;
 		`
 
 		let use = this.shadowRoot.querySelector('use')

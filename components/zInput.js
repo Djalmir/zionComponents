@@ -23,6 +23,7 @@ style.innerText = /*css*/`
 		border: inherit;
 		border-radius: .2rem;
 		display: flex;
+		transition: inherit;
 		box-shadow: var(--box-shadow);
 	}
 
@@ -51,7 +52,7 @@ style.innerText = /*css*/`
 	b {
 		position: absolute;
 		bottom: 100%;
-		left: 3%;
+		left: 7px;
 		font-size: inherit;
 		line-height: inherit;
 		/*transition: all .2s ease-out, background 0s, color 0s;*/
@@ -94,14 +95,21 @@ export default class zInput extends HTMLElement {
 			this.shadowRoot.appendChild(style.cloneNode(true))
 		})
 		this.shadowRoot.appendChild(style.cloneNode(true))
-		let themeClasses = ['primary', 'primary-light', 'secondary', 'secondary-light', 'danger', 'danger-light', 'success', 'success-light']
-		Array.from(this.classList).map((className) => {
-			if (themeClasses.includes(className)) {
-				let style = document.createElement('style')
-				style.textContent = /*css*/`
+		this.themeStyle = null
+		this.updateTheme = () => {
+			let themeClasses = ['primary', 'primary-light', 'secondary', 'secondary-light', 'danger', 'danger-light', 'success', 'success-light']
+			Array.from(this.classList).map((className) => {
+				if (themeClasses.includes(className)) {
+					if (this.themeStyle) {
+						this.shadowRoot.removeChild(this.themeStyle)
+					}
+					this.themeStyle = document.createElement('style')
+					this.themeStyle.textContent = /*css*/`
 					.${ className } {
 						background: var(--${ className });
-						color: var(--${ className.includes('light') ? 'dark-font1' : 'light-font2' });
+						color: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
+						fill: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
+						stroke: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
 					}
 
 					.${ className }:-webkit-autofill,
@@ -109,25 +117,30 @@ export default class zInput extends HTMLElement {
 					.${ className }:-webkit-autofill:focus {
 						-webkit-box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--${ className }) !important;
 						box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--${ className }) !important;
-						-webkit-text-fill-color: var(--${ className.includes('light') ? 'dark-font1' : 'light-font2' }) !important;
+						-webkit-text-fill-color: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' }) !important;
 					}
 				`
-				this.shadowRoot.appendChild(style.cloneNode(true))
-			}
-		})
+					this.shadowRoot.appendChild(this.themeStyle)
+				}
+
+				this.shadowRoot.querySelector('label').classList.forEach((c) => {
+					if (themeClasses.includes(c))
+						this.shadowRoot.querySelector('label').classList.remove(c)
+				})
+				this.shadowRoot.querySelector('label').classList.add(className)
+			})
+		}
 		this.shadowRoot.appendChild(template.content.cloneNode(true))
+		this.updateTheme()
 
 		if (this.getAttribute('id'))
 			this.shadowRoot.querySelector('label').id = this.getAttribute('id')
-		Array.from(this.classList).map((className) => {
-			this.shadowRoot.querySelector('label').classList.add(className)
-		})
+
 		this.shadowRoot.querySelector('input').value = this.getAttribute('value') || this.value
 		this.shadowRoot.querySelector('input').placeholder = this.getAttribute('placeholder') || this.placeholder
 		if (this.getAttribute('maxlength') || this.maxLength)
 			this.shadowRoot.querySelector('input').maxLength = this.getAttribute('maxlength') || this.maxLength
 		this.shadowRoot.querySelector('b').innerText = this.getAttribute('placeholder') || this.placeholder
-
 
 	}
 
@@ -153,7 +166,7 @@ export default class zInput extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return ['placeholder', 'value', 'maxlength']
+		return ['placeholder', 'value', 'maxlength', 'class']
 	}
 
 	attributeChangedCallback(attribute, oldValue, newValue) {
@@ -166,6 +179,11 @@ export default class zInput extends HTMLElement {
 				break
 			case 'maxlength':
 				this.shadowRoot.querySelector('input').setAttribute('maxlength', newValue)
+				break
+			case 'class':
+				console.log('class', newValue)
+				if (this.getAttribute('class').length)
+					this.updateTheme()
 				break
 		}
 	}

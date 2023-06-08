@@ -35,7 +35,7 @@ b.title {
 	margin-bottom: 22px;
 }
 
-.flexDiv{
+.flexDiv {
 	padding: 0;
 	margin-bottom: 22px;
 	display: flex;
@@ -43,15 +43,30 @@ b.title {
 	justify-content: space-evenly;
 }
 
-#svgLibCard{
+#svgLibCard {
 	width: 80%;
 	margin: 0 auto;
 }
 
+#searchInputWrapper {
+	width: 100%;
+	display: flex;
+}
+
+#iconSearchInput {
+	margin-left: auto;
+	width: 33%;
+	min-width: 220px;
+	transition: .4s;
+}
+
 #svgLib {
-	display: grid;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 	gap: 17px;
-	grid-template-columns: repeat( auto-fit, minmax(100px, 1fr) );
+	
+	margin-top: 33px;
 }
 
 .svgCard {
@@ -67,7 +82,11 @@ b.title {
 	text-align: center;
 	border-radius: .4rem;
 	cursor: pointer;
-	transition: .75s;
+	transition: .4s;
+	flex: 1;
+	min-width: 100px;
+	max-width: 140px;
+	box-shadow: var(--box-shadow);
 }
 
 .lightTheme .svgCard {
@@ -184,8 +203,15 @@ template.innerHTML = /*html*/`
 	<section>
 		<div id="svgLibCard" class="card">
 			<b class="title">Icones</b><br/>
+			<div id="searchInputWrapper">
+			<z-input placeholder="Pesquisa" z-model="iconSearch" class="${ app.darkTheme ? 'secondary-light' : 'secondary' }" id="iconSearchInput">
+				<div slot="right-slot" style="display:grid; place-items:center; pointer-events: none;">
+					<z-icon class="search" size="1.25" style="pointer-events: none; padding: 3px 5px;"></z-icon>
+				</div>
+			</z-input>
+			</div>
 			<div id="svgLib">
-				<div z-for="svgId in svgLib" class="svgCard">
+				<div z-for="svgId in filteredSvgLib" class="svgCard">
 					<z-icon class="{{svgId}}" size="2"></z-icon>
 					<span>{{svgId}}</span>
 				</div>
@@ -218,21 +244,33 @@ export default class Home extends HTMLElement {
 		this.watch.darkTheme = () => {
 			if (this.autoUpdatingTheme)
 				this.autoUpdatingTheme = false
-			else
+			else {
 				app.darkTheme = this.darkTheme
+				this.shadowRoot.querySelector('#iconSearchInput').classList.remove(`${ app.darkTheme ? 'secondary-light' : 'secondary' }`)
+				this.shadowRoot.querySelector('#iconSearchInput').classList.add(`${ app.darkTheme ? 'secondary' : 'secondary-light' }`)
+			}
 		}
 
 		this.name = ''
 		this.phone = ''
 		this.rememberUser = true
+		this.iconSearch = ''
 
-		// this.watch.rememberUser = () => {
-		// 	console.log('remember user', this.rememberUser)
-		// }
+		this.watch.iconSearch = () => {
+			if (this.iconSearch.trim()) {
+				let filteredArr = this.svgLib.filter(svg => svg.includes(this.iconSearch))
+				if (!filteredArr.length)
+					filteredArr = ['Nenhum icone encontrado']
+				this.filteredSvgLib = filteredArr
+			}
+			else
+				this.filteredSvgLib = this.svgLib
+		}
 
 		this.setPhoneMask = (e) => setMask(e, 'cellphone')
 
 		this.svgLib = ['']
+		this.filteredSvgLib = ['']
 		fetch(`${ window.location.origin.includes('github.io') ? `/zionComponents` : '' }/assets/svgLib.svg`)
 			.then(res => res.text())
 			.then((res) => {
@@ -241,6 +279,7 @@ export default class Home extends HTMLElement {
 					arr.push(idStr.replace(`id="`, '').replace(`"`, ''))
 				})
 				this.svgLib = arr
+				this.filteredSvgLib = arr
 			})
 	}
 
