@@ -233,7 +233,7 @@ export default class Home extends HTMLElement {
 		this.setPhoneMask = (e) => setMask(e, 'cellphone')
 
 		this.svgLib = ['']
-		fetch('/assets/svgLib.svg')
+		fetch(`${ window.location.origin.includes('github.io') ? `/zionComponents` : '' }/assets/svgLib.svg`)
 			.then(res => res.text())
 			.then((res) => {
 				let arr = []
