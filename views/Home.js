@@ -44,7 +44,8 @@ b.title {
 }
 
 #svgLibCard {
-	width: 80%;
+	width: 1920px;
+	max-width: 90vw;
 	margin: 0 auto;
 }
 
@@ -65,7 +66,6 @@ b.title {
 	flex-wrap: wrap;
 	justify-content: center;
 	gap: 17px;
-	
 	margin-top: 33px;
 }
 
@@ -205,14 +205,12 @@ template.innerHTML = /*html*/`
 			<b class="title">Icones</b><br/>
 			<div id="searchInputWrapper">
 			<z-input placeholder="Pesquisa" z-model="iconSearch" class="${ app.darkTheme ? 'secondary-light' : 'secondary' }" id="iconSearchInput">
-				<div slot="right-slot" style="display:grid; place-items:center; pointer-events: none;">
-					<z-icon class="search" size="1.25" style="pointer-events: none; padding: 3px 5px;"></z-icon>
-				</div>
+				<z-icon slot="right-slot" class="search" size="1.5" style="margin: 3px 5px 0" ></z-icon>
 			</z-input>
 			</div>
 			<div id="svgLib">
 				<div z-for="svgId in filteredSvgLib" class="svgCard">
-					<z-icon class="{{svgId}}" size="2"></z-icon>
+					<z-icon class="{{svgId}}" size="2.5"></z-icon>
 					<span>{{svgId}}</span>
 				</div>
 			</div>
@@ -286,7 +284,7 @@ export default class Home extends HTMLElement {
 	connectedCallback() {
 		setTimeout(() => {
 			Array.from(this.shadowRoot.querySelectorAll('.card')).map((card) => {
-				card.style.transition = '.4s'
+				card.style.transition = 'background .4s, color .4s'
 			})
 		}, 0)
 	}
