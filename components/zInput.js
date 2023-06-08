@@ -181,7 +181,6 @@ export default class zInput extends HTMLElement {
 				this.shadowRoot.querySelector('input').setAttribute('maxlength', newValue)
 				break
 			case 'class':
-				console.log('class', newValue)
 				if (this.getAttribute('class').length)
 					this.updateTheme()
 				break
