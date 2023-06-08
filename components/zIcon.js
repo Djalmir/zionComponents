@@ -20,6 +20,7 @@ export default class zIcon extends HTMLElement {
 		`
 
 		let use = this.shadowRoot.querySelector('use')
+		console.log('origin:', window.location.origin)
 		use.setAttribute('href', `${window.location.origin.includes('github.io')?'/zionComponents':''}/assets/svgLib.svg#` + (this.getAttribute('class') || this.class))
 	}
 }
