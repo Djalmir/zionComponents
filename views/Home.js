@@ -39,8 +39,18 @@ b.title {
 	padding: 0;
 	margin-bottom: 22px;
 	display: flex;
-	gap: 7px;
-	justify-content: space-evenly;
+	gap: 13px;
+}
+
+.input {
+	flex: 1;
+	transition: .4s;
+}
+
+.flexDiv label {
+	flex: 1;
+	text-align: center;
+	cursor: pointer;
 }
 
 #svgLibCard {
@@ -56,9 +66,26 @@ b.title {
 
 #iconSearchInput {
 	margin-left: auto;
-	width: 33%;
+	width: 100%;
+	max-width: 463px;
 	min-width: 220px;
 	transition: .4s;
+}
+
+#clearSearchButton {
+	cursor: pointer;
+	/*fill: var(--danger-light);
+	stroke: var(--danger-light);*/
+	margin: 3px 3px 3px 5px;
+}
+
+#clearSearchButton:hover {
+	fill: var(--primary-light);
+	stroke: var(--primary-light);
+}
+
+#clearSearchButton:active {
+	filter: brightness(.9);
 }
 
 #svgLib {
@@ -85,7 +112,7 @@ b.title {
 	transition: .4s;
 	flex: 1;
 	min-width: 100px;
-	max-width: 140px;
+	max-width: 160px;
 	box-shadow: var(--box-shadow);
 }
 
@@ -123,73 +150,57 @@ template.innerHTML = /*html*/`
 		<div id="previews">
 
 			<div class="card">
-				<b class="title">Inputs de texto</b>
+				<b class="title">Inputs</b>
 				<div class="flexDiv">
-					<z-input placeholder="Nome" z-model="name"></z-input>
-					<z-input placeholder="Whatsapp" z-model="phone" z-oninput="setPhoneMask">
-				</div>
-				<div class="flexDiv">
-					<z-input class="primary" placeholder="Nome" z-model="name"></z-input>
-					<z-input class="primary-light" placeholder="Whatsapp" z-model="phone" z-oninput="setPhoneMask">
-						<!--<button slot='left-slot'>Teste</button>
-						<button slot='right-slot'>Teste</button>-->
+					<z-input placeholder="Nome" z-model="name" class="secondary input"></z-input>
+					<z-input type="tel" placeholder="Whatsapp" z-model="phone" z-oninput="setPhoneMask" class="secondary input">
+						<!--<z-icon class="message-circle" size="1.5" slot="left-slot" style="transform: translateY(2px); padding: 0 3px; stroke: transparent"></z-icon>-->
 					</z-input>
 				</div>
 				<div class="flexDiv">
-					<z-input class="secondary" placeholder="Nome" z-model="name"></z-input>
-					<z-input class="secondary-light" placeholder="Whatsapp" z-model="phone" z-oninput="setPhoneMask">
-					</z-input>
-				</div>
-				<div class="flexDiv">
-					<z-input class="danger" placeholder="Nome" z-model="name"></z-input>
-					<z-input class="danger-light" placeholder="Whatsapp" z-model="phone" z-oninput="setPhoneMask">
-					</z-input>
-				</div>
-				<div class="flexDiv">
-					<z-input class="success" placeholder="Nome" z-model="name"></z-input>
-					<z-input class="success-light" placeholder="Whatsapp" z-model="phone" z-oninput="setPhoneMask">
-					</z-input>
-				</div>
+					<z-input placeholder="Endereço" z-model="address" style="flex: 2;" class="secondary input"></z-input>
+					<z-number-input type="number" placeholder="Número" z-model="number" class="secondary input" min="0"></z-number-input>
+				</div>				
 			</div>
 
 			<div class="card">
 				<b class="title">Checkboxes</b>
 				<div class="flexDiv">
-					<label style="cursor: pointer;">
+					<label>
 						<z-checkbox z-model="rememberUser" class="primary"></z-checkbox>
 						Lembrar usuário
 					</label>
-					<label style="cursor: pointer;">
+					<label>
 						<z-checkbox z-model="rememberUser" class="primary-light"></z-checkbox>
 						Lembrar usuário
 					</label>
 				</div>
 				<div class="flexDiv">
-					<label style="cursor: pointer;">
+					<label>
 						<z-checkbox z-model="rememberUser" class="secondary"></z-checkbox>
 						Lembrar usuário
 					</label>
-					<label style="cursor: pointer;">
+					<label>
 						<z-checkbox z-model="rememberUser" class="secondary-light"></z-checkbox>
 						Lembrar usuário
 					</label>
 				</div>
 				<div class="flexDiv">
-					<label style="cursor: pointer;">
+					<label>
 						<z-checkbox z-model="rememberUser" class="danger"></z-checkbox>
 						Lembrar usuário
 					</label>
-					<label style="cursor: pointer;">
+					<label>
 						<z-checkbox z-model="rememberUser" class="danger-light"></z-checkbox>
 						Lembrar usuário
 					</label>
 				</div>
 				<div class="flexDiv">
-					<label style="cursor: pointer;">
+					<label>
 						<z-checkbox z-model="rememberUser" class="success"></z-checkbox>
 						Lembrar usuário
 					</label>
-					<label style="cursor: pointer;">
+					<label>
 						<z-checkbox z-model="rememberUser" class="success-light"></z-checkbox>
 						Lembrar usuário
 					</label>
@@ -204,9 +215,14 @@ template.innerHTML = /*html*/`
 		<div id="svgLibCard" class="card">
 			<b class="title">Icones</b><br/>
 			<div id="searchInputWrapper">
-			<z-input placeholder="Pesquisa" z-model="iconSearch" class="${ app.darkTheme ? 'secondary-light' : 'secondary' }" id="iconSearchInput">
-				<z-icon slot="right-slot" class="search" size="1.5" style="margin: 3px 5px 0" ></z-icon>
-			</z-input>
+				<z-input placeholder="Pesquisa" z-model="iconSearch" class="${ app.darkTheme ? 'secondary-light' : 'secondary' }" id="iconSearchInput">
+					<div slot="left-slot" style="display: grid; place-items:center; padding: 3px 5px;">
+						<z-icon class="search" size="1.5"></z-icon>
+					</div>
+					<div slot="right-slot" style="display: grid; place-items:center;">
+						<z-icon id="clearSearchButton" class="close" z-if="iconSearch" size="1.2" z-onclick="()=>{ this.iconSearch = ''}"></z-icon>
+					</div>
+				</z-input>
 			</div>
 			<div id="svgLib">
 				<div z-for="svgId in filteredSvgLib" class="svgCard">
@@ -221,6 +237,7 @@ template.innerHTML = /*html*/`
 `
 
 import zInput from '../components/zInput.js'
+import zNumberInput from '../components/zNumberInput.js'
 import zCheckbox from '../components/zCheckbox.js'
 import zIcon from '../components/zIcon.js'
 
@@ -244,13 +261,18 @@ export default class Home extends HTMLElement {
 				this.autoUpdatingTheme = false
 			else {
 				app.darkTheme = this.darkTheme
-				this.shadowRoot.querySelector('#iconSearchInput').classList.remove(`${ app.darkTheme ? 'secondary-light' : 'secondary' }`)
-				this.shadowRoot.querySelector('#iconSearchInput').classList.add(`${ app.darkTheme ? 'secondary' : 'secondary-light' }`)
+				Array.from(this.shadowRoot.querySelectorAll('.input')).map((input) => {
+					input.classList.replace(`${ app.darkTheme ? 'light-bg4' : 'secondary' }`, `${ app.darkTheme ? 'secondary' : 'light-bg4' }`)
+				})
+				this.shadowRoot.querySelector('#iconSearchInput').classList.replace(`${ app.darkTheme ? 'secondary-light' : 'secondary' }`, `${ app.darkTheme ? 'secondary' : 'secondary-light' }`)
 			}
 		}
 
 		this.name = ''
 		this.phone = ''
+		this.address = ''
+		this.number = null
+		this.birthday = ''
 		this.rememberUser = true
 		this.iconSearch = ''
 
@@ -263,6 +285,7 @@ export default class Home extends HTMLElement {
 			}
 			else
 				this.filteredSvgLib = this.svgLib
+			// this.shadowRoot.querySelector('#svgLibCard').scrollIntoView({ block: 'start' })
 		}
 
 		this.setPhoneMask = (e) => setMask(e, 'cellphone')

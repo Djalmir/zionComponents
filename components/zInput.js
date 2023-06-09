@@ -97,7 +97,7 @@ export default class zInput extends HTMLElement {
 		this.shadowRoot.appendChild(style.cloneNode(true))
 		this.themeStyle = null
 		this.updateTheme = () => {
-			let themeClasses = ['primary', 'primary-light', 'secondary', 'secondary-light', 'danger', 'danger-light', 'success', 'success-light']
+			let themeClasses = ['primary', 'primary-light', 'secondary', 'secondary-light', 'danger', 'danger-light', 'success', 'success-light', 'dark-bg1', 'dark-bg2', 'dark-bg3', 'dark-bg4', 'light-bg1', 'light-bg2', 'light-bg3', 'light-bg4']
 			Array.from(this.classList).map((className) => {
 				if (themeClasses.includes(className)) {
 					if (this.themeStyle) {
@@ -105,28 +105,24 @@ export default class zInput extends HTMLElement {
 					}
 					this.themeStyle = document.createElement('style')
 					this.themeStyle.textContent = /*css*/`
-					.${ className } {
-						background: var(--${ className });
-						color: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
-						fill: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
-						stroke: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
-					}
+						.${ className } {
+							background: var(--${ className });
+							color: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
+							fill: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
+							stroke: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
+						}
 
-					.${ className }:-webkit-autofill,
-					.${ className }:-webkit-autofill:hover,
-					.${ className }:-webkit-autofill:focus {
-						-webkit-box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--${ className }) !important;
-						box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--${ className }) !important;
-						-webkit-text-fill-color: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' }) !important;
-					}
-				`
+						.${ className }:-webkit-autofill,
+						.${ className }:-webkit-autofill:hover,
+						.${ className }:-webkit-autofill:focus {
+							-webkit-box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--${ className }) !important;
+							box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--${ className }) !important;
+							-webkit-text-fill-color: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' }) !important;
+						}
+					`
 					this.shadowRoot.appendChild(this.themeStyle)
 				}
 
-				this.shadowRoot.querySelector('label').classList.forEach((c) => {
-					if (themeClasses.includes(c))
-						this.shadowRoot.querySelector('label').classList.remove(c)
-				})
 				this.shadowRoot.querySelector('label').classList.add(className)
 			})
 		}
@@ -165,8 +161,15 @@ export default class zInput extends HTMLElement {
 		this.shadowRoot.querySelector('input').setAttribute('maxlength', val)
 	}
 
+	get type() {
+		return this.shadowRoot.querySelector('input').getAttribute('type')
+	}
+	set type(val) {
+		this.shadowRoot.querySelector('input').setAttribute('type', val)
+	}
+
 	static get observedAttributes() {
-		return ['placeholder', 'value', 'maxlength', 'class']
+		return ['placeholder', 'value', 'maxlength', 'class', 'type']
 	}
 
 	attributeChangedCallback(attribute, oldValue, newValue) {
@@ -184,14 +187,19 @@ export default class zInput extends HTMLElement {
 				if (this.getAttribute('class').length)
 					this.updateTheme()
 				break
+			case 'type':
+				this.shadowRoot.querySelector('input').setAttribute('type', newValue)
+				break
 		}
 	}
 
 	connectedCallback() {
-		this.shadowRoot.host.style.setProperty('--input-left', this.shadowRoot.querySelector('input').getBoundingClientRect().x - this.getBoundingClientRect().x + 7 + 'px')
 		setTimeout(() => {
-			this.shadowRoot.querySelector('b').style.transition = 'all .2s ease-out, background 0s, color 0s'
-		}, 1)
+			this.shadowRoot.host.style.setProperty('--input-left', this.shadowRoot.querySelector('input').getBoundingClientRect().x - this.getBoundingClientRect().x + 7 + 'px')
+			setTimeout(() => {
+				this.shadowRoot.querySelector('b').style.transition = 'all .2s ease-out, background 0s, color 0s'
+			}, 250)
+		}, 0)
 
 	}
 }

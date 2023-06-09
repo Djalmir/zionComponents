@@ -12,7 +12,7 @@ export default class zIcon extends HTMLElement {
 
 		let svg = this.shadowRoot.querySelector('svg')
 		svg.style = `
-			border-radius: .4rem;
+			display: block;
 			min-width: ${ this.getAttribute('size') || this.size || 1 }rem;
 			min-height: ${ this.getAttribute('size') || this.size || 1 }rem;
 			width: ${ this.getAttribute('size') || this.size || 1 }rem;
