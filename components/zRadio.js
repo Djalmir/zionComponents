@@ -14,12 +14,12 @@ input {
 	background: #fff;
 	margin: 0;
 	font: inherit;
-	min-width: 1em;
-	min-height: 1em;
-	width: 1em;
-	height: 1em;
-	max-width: 1em;
-	max-height: 1em;
+	min-width: 1.15em;
+	min-height: 1.15em;
+	width: 1.15em;
+	height: 1.15em;
+	max-width: 1.15em;
+	max-height: 1.15em;
 	border: .15em solid #fff;
 	border-radius: 50%;
 	transform: translateY(-0.075em);
@@ -27,16 +27,18 @@ input {
 	place-content: center;
 	transition: .2s;
 	cursor: pointer;
-	box-shadow: var(--box-shadow)
+	box-shadow: 1px 1px 2px #000000d0;
 }
 
 input:hover,
+input.hover,
 input:focus {
 	box-shadow: 1px 2px 5px #000000d0;
 	border: .15em solid var(--activeColor);
 }
 
-input:active {
+input:active,
+input.active {
 	box-shadow: 1px 2px 5px -2px #000000d0;
 	background: var(--activeColor);
 	filter: brightness(.8);
@@ -77,10 +79,34 @@ export default class zRadio extends HTMLElement {
 
 		this.input.addEventListener('click', (e) => { e.stopPropagation() })
 
+		this.label = null
 		if (this.shadowRoot.host.parentElement.tagName == 'LABEL')
-			this.shadowRoot.host.parentElement.addEventListener('click', () => { this.input.click() })
+			this.label = this.shadowRoot.host.parentElement
 		else if (this.getRootNode().querySelector(`[for="${ this.id }"]`))
-			this.getRootNode().querySelector(`[for="${ this.id }"]`).addEventListener('click', () => { this.input.click() })
+			this.label = this.getRootNode().querySelector(`[for="${ this.id }"]`)
+		if (this.label) {
+			this.label.addEventListener('mouseenter', () => {
+				this.input.classList.add('hover')
+			})
+			this.label.addEventListener('touchstart', () => {
+				this.input.classList.add('hover')
+			})
+			this.label.addEventListener('mouseleave', () => {
+				this.input.classList.remove('hover')
+				this.input.classList.remove('active')
+			})
+			this.label.addEventListener('touchend', () => {
+				this.input.classList.remove('hover')
+				this.input.classList.remove('active')
+			})
+			this.label.addEventListener('mousedown', () => {
+				this.input.classList.add('active')
+			})
+			this.label.addEventListener('mouseup', () => {
+				this.input.classList.remove('active')
+			})
+			this.label.addEventListener('click', () => { this.input.click() })
+		}
 
 		this.input.addEventListener('change', (e) => {
 			this.checked = e.target.checked

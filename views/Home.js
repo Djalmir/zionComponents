@@ -1,9 +1,22 @@
 const style = document.createElement('style')
 style.textContent = /*css*/`
-#previewsWrapper {
-	margin: 35px auto;
+*{
+	border: 1px solid red;
+}
+
+#view {
+	border: 1px solid lime;
+}
+
+section {
+	margin: 35px 0;
 	padding: 70px 5vw;
-	max-width: 100%;
+	width: 100vw;
+	border: 2px solid white;
+	overflow: auto;
+}
+
+#previewsWrapper {
 	overflow: auto;
 }
 
@@ -18,7 +31,7 @@ style.textContent = /*css*/`
 	background: var(--dark-bg3);
 	padding: 25px 17px 17px;
 	border-radius: .5rem;
-	width: 480px;
+	min-width: 480px;
 	max-width: 90vw;
 	box-shadow: var(--box-shadow);
 }
@@ -53,10 +66,22 @@ b.title {
 	place-items: center;
 	gap: 17px;
 	padding: 17px;
+	font-size: 18px;
 }
 
 .checkboxesGrid label {
 	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 7px;
+}
+
+.checkboxesGrid label span {
+	font-weight: 500;
+	font-size: 1em;
+	line-height: 1em;
+	text-transform: capitalize;
+	white-space: nowrap;
 }
 
 #svgLibCard {
@@ -74,7 +99,7 @@ b.title {
 	margin-left: auto;
 	width: 100%;
 	max-width: 463px;
-	min-width: 220px;
+	min-width: 120px;
 	transition: .4s;
 }
 
@@ -172,7 +197,7 @@ template.innerHTML = /*html*/`
 				<div class="checkboxesGrid">
 					<label z-for="className in themeClasses">
 						<z-checkbox z-model="rememberUser" class="{{className}}"></z-checkbox>
-						Lembrar usuário
+						<span>Lembrar usuário</span>
 					</label>
 				</div>
 			</div>
@@ -182,7 +207,7 @@ template.innerHTML = /*html*/`
 				<div class="checkboxesGrid" style="place-items: start; width: fit-content; margin: auto;">
 					<label z-for="className in themeClasses">
 						<z-radio z-model="radiobuttonsTheme" value="{{className}}" class="{{className}}"></z-radio>
-						{{className}}
+						<span>{{className}}</span>
 					</label>
 				</div>
 			</div>

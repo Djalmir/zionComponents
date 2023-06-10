@@ -30,13 +30,16 @@ input {
 }
 
 input:hover,
+input.hover,
 input:focus {
 	box-shadow: 1px 2px 5px #000000d0;
 	border: .15em solid var(--activeColor);
 }
 
-input:active {
+input:active,
+input.active {
 	box-shadow: 1px 2px 5px -2px #000000d0;
+	filter: brightness(.8);
 }
 
 input:checked {
@@ -86,27 +89,51 @@ export default class zCheckbox extends HTMLElement {
 
 		this.shadowRoot.appendChild(template.content.cloneNode(true))
 
-		const checkbox = this.shadowRoot.querySelector("[type='checkbox']")
+		this.input = this.shadowRoot.querySelector("[type='checkbox']")
 		if (this.getAttribute('id'))
-			checkbox.id = this.getAttribute('id')
+			this.input.id = this.getAttribute('id')
 		Array.from(this.classList).map((className) => {
-			checkbox.classList.add(className)
+			this.input.classList.add(className)
 		})
-		checkbox.checked = this.getAttribute('checked') || this.checked
+		this.input.checked = this.getAttribute('checked') || this.checked
 
-		checkbox.addEventListener('click', (e) => { e.stopPropagation() })
+		this.input.addEventListener('click', (e) => { e.stopPropagation() })
 
+		this.label = null
 		if (this.shadowRoot.host.parentElement.tagName == 'LABEL')
-			this.shadowRoot.host.parentElement.addEventListener('click', () => { checkbox.click() })
-		else if (app.view.shadowRoot.querySelector(`[for=${ this.id }]`))
-			app.view.shadowRoot.querySelector(`[for=${ this.id }]`).addEventListener('click', () => { checkbox.click() })
+			this.label = this.shadowRoot.host.parentElement
+		else if (this.getRootNode().querySelector(`[for="${ this.id }"]`))
+			this.label = this.getRootNode().querySelector(`[for="${ this.id }"]`)
+		if (this.label) {
+			this.label.addEventListener('mouseenter', () => {
+				this.input.classList.add('hover')
+			})
+			this.label.addEventListener('touchstart', () => {
+				this.input.classList.add('hover')
+			})
+			this.label.addEventListener('mouseleave', () => {
+				this.input.classList.remove('hover')
+				this.input.classList.remove('active')
+			})
+			this.label.addEventListener('touchend', () => {
+				this.input.classList.remove('hover')
+				this.input.classList.remove('active')
+			})
+			this.label.addEventListener('mousedown', () => {
+				this.input.classList.add('active')
+			})
+			this.label.addEventListener('mouseup', () => {
+				this.input.classList.remove('active')
+			})
+			this.label.addEventListener('click', () => { this.input.click() })
+		}
 	}
 
 	get checked() {
-		return this.shadowRoot.querySelector("[type='checkbox']").checked
+		return this.input.checked
 	}
 	set checked(val) {
-		this.shadowRoot.querySelector("[type='checkbox']").checked = val
+		this.input.checked = val
 	}
 
 	static get observedAttributes() {
@@ -116,7 +143,7 @@ export default class zCheckbox extends HTMLElement {
 	attributeChangedCallback(attribute, oldValue, newValue) {
 		switch (attribute) {
 			case 'checked':
-				this.shadowRoot.querySelector("[type='checkbox']").checked = eval(newValue)
+				this.input.checked = eval(newValue)
 				break
 		}
 	}
