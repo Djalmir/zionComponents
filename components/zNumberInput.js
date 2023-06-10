@@ -78,20 +78,22 @@ style.innerText = /*css*/`
 
 	.spinnerButtonsWrapper {
 		display: flex;
-		flex-direction: column;
-		justify-content: space-evenly;
+		flex-direction: column;		
+		justify-content: center;
+		padding: 0;
+		max-height: 2rem;
 	}
 
 	.spinnerButton {
-		height: .5rem;
-		margin: auto;
-		display: grid;
-		place-items: center;
+		padding: 0;
+		max-height: .88rem;
+		display: flex;
+		align-items: center;
 		user-select: none;
 	}
 
 	.spinnerButton z-icon {
-		transform: scaleY(.7) translateY(-45%);
+		scale: .8;
 	}
 
 	.spinnerButton:hover {

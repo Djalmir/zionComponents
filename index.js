@@ -51,18 +51,23 @@ function mountApp(routes) {
 }
 
 function updateAppTheme() {
+	let viewContainer = app.view.shadowRoot.querySelector('#view')
 	if (app.view) {
 		if (app._darkTheme) {
-			app.view.shadowRoot.querySelector('#view').classList.add('darkTheme')
-			app.view.shadowRoot.querySelector('#view').classList.remove('lightTheme')
+			if (viewContainer)
+				viewContainer.classList.replace('lightTheme', 'darkTheme')
+				else
+					console.warn(`Please add a container div with id=="view" to all your views, and make sure it wraps all the page elements.`)
 			app.view.shadowRoot.style = document.body.style = `
 				background: var(--dark-bg2);
 				color: var(--light-font1);
 			`
 		}
 		else {
-			app.view.shadowRoot.querySelector('#view').classList.add('lightTheme')
-			app.view.shadowRoot.querySelector('#view').classList.remove('darkTheme')
+			if (viewContainer)
+				viewContainer.classList.replace('darkTheme', 'lightTheme')
+				else
+					console.warn(`Please add a container div with id=="view" to all your views, and make sure it wraps all the page elements.`)
 			app.view.shadowRoot.style = document.body.style = `
 				background: var(--light-bg2);
 				color: var(--dark-font1);

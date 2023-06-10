@@ -47,9 +47,15 @@ b.title {
 	transition: .4s;
 }
 
-.flexDiv label {
-	flex: 1;
-	text-align: center;
+.checkboxesGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	place-items: center;
+	gap: 17px;
+	padding: 17px;
+}
+
+.checkboxesGrid label {
 	cursor: pointer;
 }
 
@@ -74,8 +80,6 @@ b.title {
 
 #clearSearchButton {
 	cursor: pointer;
-	/*fill: var(--danger-light);
-	stroke: var(--danger-light);*/
 	margin: 3px 3px 3px 5px;
 }
 
@@ -165,44 +169,20 @@ template.innerHTML = /*html*/`
 
 			<div class="card">
 				<b class="title">Checkboxes</b>
-				<div class="flexDiv">
-					<label>
-						<z-checkbox z-model="rememberUser" class="primary"></z-checkbox>
-						Lembrar usuário
-					</label>
-					<label>
-						<z-checkbox z-model="rememberUser" class="primary-light"></z-checkbox>
+				<div class="checkboxesGrid">
+					<label z-for="className in themeClasses">
+						<z-checkbox z-model="rememberUser" class="{{className}}"></z-checkbox>
 						Lembrar usuário
 					</label>
 				</div>
-				<div class="flexDiv">
-					<label>
-						<z-checkbox z-model="rememberUser" class="secondary"></z-checkbox>
-						Lembrar usuário
-					</label>
-					<label>
-						<z-checkbox z-model="rememberUser" class="secondary-light"></z-checkbox>
-						Lembrar usuário
-					</label>
-				</div>
-				<div class="flexDiv">
-					<label>
-						<z-checkbox z-model="rememberUser" class="danger"></z-checkbox>
-						Lembrar usuário
-					</label>
-					<label>
-						<z-checkbox z-model="rememberUser" class="danger-light"></z-checkbox>
-						Lembrar usuário
-					</label>
-				</div>
-				<div class="flexDiv">
-					<label>
-						<z-checkbox z-model="rememberUser" class="success"></z-checkbox>
-						Lembrar usuário
-					</label>
-					<label>
-						<z-checkbox z-model="rememberUser" class="success-light"></z-checkbox>
-						Lembrar usuário
+			</div>
+
+			<div class="card">
+				<b class="title">Radios</b>
+				<div class="checkboxesGrid" style="place-items: start; width: fit-content; margin: auto;">
+					<label z-for="className in themeClasses">
+						<z-radio z-model="radiobuttonsTheme" value="{{className}}" class="{{className}}"></z-radio>
+						{{className}}
 					</label>
 				</div>
 			</div>
@@ -240,6 +220,7 @@ import zInput from '../components/zInput.js'
 import zNumberInput from '../components/zNumberInput.js'
 import zCheckbox from '../components/zCheckbox.js'
 import zIcon from '../components/zIcon.js'
+import zRadio from '../components/zRadio.js'
 
 export default class Home extends HTMLElement {
 	constructor() {
@@ -268,6 +249,7 @@ export default class Home extends HTMLElement {
 			}
 		}
 
+		this.themeClasses = ['primary', 'primary-light', 'secondary', 'secondary-light', 'danger', 'danger-light', 'success', 'success-light']
 		this.name = ''
 		this.phone = ''
 		this.address = ''
@@ -275,6 +257,7 @@ export default class Home extends HTMLElement {
 		this.birthday = ''
 		this.rememberUser = true
 		this.iconSearch = ''
+		this.radiobuttonsTheme = 'primary'
 
 		this.watch.iconSearch = () => {
 			if (this.iconSearch.trim()) {
@@ -310,6 +293,10 @@ export default class Home extends HTMLElement {
 				card.style.transition = 'background .4s, color .4s'
 			})
 		}, 0)
+		Array.from(this.shadowRoot.querySelectorAll('.input')).map((input) => {
+			input.classList.replace(`${ app.darkTheme ? 'light-bg4' : 'secondary' }`, `${ app.darkTheme ? 'secondary' : 'light-bg4' }`)
+		})
+		this.shadowRoot.querySelector('#iconSearchInput').classList.replace(`${ app.darkTheme ? 'secondary-light' : 'secondary' }`, `${ app.darkTheme ? 'secondary' : 'secondary-light' }`)
 	}
 }
 

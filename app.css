@@ -1,5 +1,5 @@
 :root {
-	--dark-bg1: #0a0a0a;
+	--dark-bg1: #1b1b1b;
 	--dark-bg2: #242424;
 	--dark-bg3: #3f3f3f;
 	--dark-bg4: #6b6b6b;
@@ -40,6 +40,35 @@
 	font-family: 'Albert Sans', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+	background: transparent;
+	width: 7px;
+	height: 7px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--dark-bg1);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--secondary);
+	border-radius: 7px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--dark-bg4);
+}
+
+::-webkit-scrollbar-thumb:active {
+	background: var(--dark-bg3);
+	box-shadow: inset 1px 1px 1px var(--dark-bg1);
+}
+
+::selection {
+	background: var(--dark-bg2);
+	color: var(--primary-light);
 }
 
 body {
