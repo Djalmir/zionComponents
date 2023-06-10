@@ -1,19 +1,10 @@
 const style = document.createElement('style')
 style.textContent = /*css*/`
-*{
-	border: 1px solid red;
-}
-
-#view {
-	border: 1px solid lime;
-}
-
 section {
 	margin: 35px 0;
 	padding: 70px 5vw;
 	width: 100vw;
-	border: 2px solid white;
-	overflow: auto;
+	overflow: hidden;
 }
 
 #previewsWrapper {
@@ -31,7 +22,7 @@ section {
 	background: var(--dark-bg3);
 	padding: 25px 17px 17px;
 	border-radius: .5rem;
-	min-width: 480px;
+	width: 800px;
 	max-width: 90vw;
 	box-shadow: var(--box-shadow);
 }
@@ -65,8 +56,6 @@ b.title {
 	grid-template-columns: 1fr 1fr;
 	place-items: center;
 	gap: 17px;
-	padding: 17px;
-	font-size: 18px;
 }
 
 .checkboxesGrid label {
@@ -82,12 +71,6 @@ b.title {
 	line-height: 1em;
 	text-transform: capitalize;
 	white-space: nowrap;
-}
-
-#svgLibCard {
-	width: 1920px;
-	max-width: 90vw;
-	margin: 0 auto;
 }
 
 #searchInputWrapper {
@@ -118,6 +101,7 @@ b.title {
 }
 
 #svgLib {
+	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;

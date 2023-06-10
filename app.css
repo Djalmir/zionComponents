@@ -52,9 +52,17 @@
 	background: var(--dark-bg1);
 }
 
+.lightTheme ::-webkit-scrollbar-track {
+	background: var(--light-bg1);
+}
+
 ::-webkit-scrollbar-thumb {
 	background: var(--secondary);
 	border-radius: 7px;
+}
+
+.lightTheme ::-webkit-scrollbar-thumb {
+		background: var(--secondary-light);
 }
 
 ::-webkit-scrollbar-thumb:hover {

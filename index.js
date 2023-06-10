@@ -56,22 +56,24 @@ function updateAppTheme() {
 		if (app._darkTheme) {
 			if (viewContainer)
 				viewContainer.classList.replace('lightTheme', 'darkTheme')
-				else
-					console.warn(`Please add a container div with id=="view" to all your views, and make sure it wraps all the page elements.`)
+			else
+				console.warn(`Please add a container div with id=="view" to all your views, and make sure it wraps all the page elements.`)
 			app.view.shadowRoot.style = document.body.style = `
 				background: var(--dark-bg2);
 				color: var(--light-font1);
 			`
+			document.body.classList.replace('lightTheme', 'darkTheme')
 		}
 		else {
 			if (viewContainer)
 				viewContainer.classList.replace('darkTheme', 'lightTheme')
-				else
-					console.warn(`Please add a container div with id=="view" to all your views, and make sure it wraps all the page elements.`)
+			else
+				console.warn(`Please add a container div with id=="view" to all your views, and make sure it wraps all the page elements.`)
 			app.view.shadowRoot.style = document.body.style = `
 				background: var(--light-bg2);
 				color: var(--dark-font1);
 			`
+			document.body.classList.replace('darkTheme', 'lightTheme')
 		}
 	}
 }
