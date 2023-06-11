@@ -3,7 +3,6 @@ style.textContent = /*css*/`
 section {
 	margin: 35px 0;
 	padding: 70px 5vw;
-	width: 100vw;
 	overflow: hidden;
 }
 
@@ -22,7 +21,7 @@ section {
 	background: var(--dark-bg3);
 	padding: 25px 17px 17px;
 	border-radius: .5rem;
-	width: 800px;
+	width: 480px;
 	max-width: 90vw;
 	box-shadow: var(--box-shadow);
 }
@@ -54,7 +53,9 @@ b.title {
 .checkboxesGrid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	place-items: center;
+	place-items: start;
+	width: fit-content;
+	margin: auto;
 	gap: 17px;
 }
 
@@ -71,6 +72,11 @@ b.title {
 	line-height: 1em;
 	text-transform: capitalize;
 	white-space: nowrap;
+}
+
+#svgLibCard {
+	width: 1920px;
+	max-width: 90vw;
 }
 
 #searchInputWrapper {
@@ -159,45 +165,39 @@ template.innerHTML = /*html*/`
 	</label>
 
 	<section id="previewsWrapper">
-
 		<div id="previews">
-
 			<div class="card">
 				<b class="title">Inputs</b>
 				<div class="flexDiv">
-					<z-input placeholder="Nome" z-model="name" class="secondary input"></z-input>
-					<z-input type="tel" placeholder="Whatsapp" z-model="phone" z-oninput="setPhoneMask" class="secondary input">
+					<z-input placeholder="Nome" class="secondary input"></z-input>
+					<z-input type="tel" placeholder="Whatsapp" z-oninput="setPhoneMask" class="secondary input">
 						<!--<z-icon class="message-circle" size="1.5" slot="left-slot" style="transform: translateY(2px); padding: 0 3px; stroke: transparent"></z-icon>-->
 					</z-input>
 				</div>
 				<div class="flexDiv">
-					<z-input placeholder="Endereço" z-model="address" style="flex: 2;" class="secondary input"></z-input>
-					<z-number-input type="number" placeholder="Número" z-model="number" class="secondary input" min="0"></z-number-input>
+					<z-input placeholder="Endereço" style="flex: 2;" class="secondary input"></z-input>
+					<z-number-input type="number" placeholder="Número" class="secondary input" min="0"></z-number-input>
 				</div>				
 			</div>
-
 			<div class="card">
 				<b class="title">Checkboxes</b>
 				<div class="checkboxesGrid">
 					<label z-for="className in themeClasses">
-						<z-checkbox z-model="rememberUser" class="{{className}}"></z-checkbox>
-						<span>Lembrar usuário</span>
+						<z-checkbox class="{{className}}" checked="true"></z-checkbox>
+						<span>{{className}}</span>
 					</label>
 				</div>
 			</div>
-
 			<div class="card">
 				<b class="title">Radios</b>
-				<div class="checkboxesGrid" style="place-items: start; width: fit-content; margin: auto;">
+				<div class="checkboxesGrid">
 					<label z-for="className in themeClasses">
 						<z-radio z-model="radiobuttonsTheme" value="{{className}}" class="{{className}}"></z-radio>
 						<span>{{className}}</span>
 					</label>
 				</div>
-			</div>
-		
+			</div>		
 		</div>
-
 	</section>
 
 	<section>
@@ -259,12 +259,6 @@ export default class Home extends HTMLElement {
 		}
 
 		this.themeClasses = ['primary', 'primary-light', 'secondary', 'secondary-light', 'danger', 'danger-light', 'success', 'success-light']
-		this.name = ''
-		this.phone = ''
-		this.address = ''
-		this.number = null
-		this.birthday = ''
-		this.rememberUser = true
 		this.iconSearch = ''
 		this.radiobuttonsTheme = 'primary'
 

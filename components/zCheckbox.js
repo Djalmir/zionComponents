@@ -39,6 +39,7 @@ input:focus {
 input:active,
 input.active {
 	box-shadow: 1px 2px 5px -2px #000000d0;
+	background: var(--activeColor);
 	filter: brightness(.8);
 }
 
