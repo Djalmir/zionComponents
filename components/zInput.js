@@ -118,8 +118,10 @@ template.innerHTML = /*html*/`
 `
 
 export default class zInput extends HTMLElement {
+	static get formAssociated() { return true }
 	constructor() {
 		super()
+		this.internals = this.attachInternals()
 		this.attachShadow({ mode: 'open' })
 		// const globalStyles = [...Array.from(document.querySelectorAll('[rel=stylesheet]')), ...Array.from(document.querySelectorAll('head style'))]
 		// globalStyles.map((style) => {
@@ -235,6 +237,14 @@ export default class zInput extends HTMLElement {
 				this.shadowRoot.querySelector('b').style.transition = 'all .2s ease-out, background 0s, color 0s'
 			}, 250)
 		}, 0)
+
+		const { internals: { form } } = this
+
+		this.shadowRoot.querySelector('input').addEventListener('keydown', (e) => {
+			// console.log(this.internals)
+			if (e.key == 'Enter' && form)
+				form.onsubmit()
+		})
 
 	}
 }

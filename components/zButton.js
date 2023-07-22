@@ -56,12 +56,10 @@ button {
 button:hover,
 button:focus {
 	filter: brightness(1);
-	/* box-shadow: 2px 2px 4px #000000d0; */
 }
 
 button:active {
 	filter: brightness(.8);
-	/* transform: scale(.99); */
 	box-shadow: inset 2px 2px 4px #000000d0;
 }
 `
@@ -73,8 +71,10 @@ template.innerHTML = /*html*/`
 	</button>	
 `
 export default class zButton extends HTMLElement {
+	static get formAssociated() { return true }
 	constructor() {
 		super()
+		this.internals = this.attachInternals()
 		this.attachShadow({ mode: 'open' })
 		this.shadowRoot.appendChild(style.cloneNode(true))
 		this.themeStyle = null
@@ -107,6 +107,16 @@ export default class zButton extends HTMLElement {
 		}
 		this.updateTheme()
 
+	}
+
+	connectedCallback() {
+		const { internals: { form } } = this
+
+		this.shadowRoot.querySelector('button').addEventListener('click', () => {
+			// console.log(this.internals)
+			if (form)
+				form.onsubmit()
+		})
 	}
 }
 
