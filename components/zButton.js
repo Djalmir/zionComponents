@@ -43,6 +43,7 @@ style.textContent = /*css*/`
 button {
 	padding: 8px;
 	border: none;
+	outline: none;
 	border-radius: .2rem;
 	font-size: .9em;
 	font-weight: bold;
