@@ -143,9 +143,9 @@ export default class zInput extends HTMLElement {
 							stroke: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
 						}
 
-						.${ className }:-webkit-autofill,
-						.${ className }:-webkit-autofill:hover,
-						.${ className }:-webkit-autofill:focus {
+						input:-webkit-autofill,
+						input:-webkit-autofill:hover,
+						input:-webkit-autofill:focus {
 							-webkit-box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--${ className }) !important;
 							box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--${ className }) !important;
 							-webkit-text-fill-color: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' }) !important;

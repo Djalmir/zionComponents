@@ -168,6 +168,11 @@ template.innerHTML = /*html*/`
 		<div id="previews">
 			<div class="card">
 				<b class="title">Inputs</b>
+				<form>
+					<div class="flexDiv">
+						<z-input type="email" placeholder="email" autocomplete="email" z-model="email" class="primary-light"></z-input>
+					</div>
+				</form>
 				<div class="flexDiv">
 					<z-input placeholder="Nome" class="secondary input"></z-input>
 					<z-input type="tel" placeholder="Whatsapp" z-oninput="setPhoneMask" class="secondary input">
@@ -232,6 +237,8 @@ export default class Home extends HTMLElement {
 		super()
 		this.watch = {}
 		this.attachShadow({ mode: 'open' })
+
+		this.email = ''
 
 		this.shadowRoot.appendChild(style.cloneNode(true))
 		this.shadowRoot.appendChild(template.content.cloneNode(true))
