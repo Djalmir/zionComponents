@@ -225,11 +225,7 @@ template.innerHTML = /*html*/`
 </div>
 `
 
-import zInput from '../components/zInput.js'
-import zNumberInput from '../components/zNumberInput.js'
-import zCheckbox from '../components/zCheckbox.js'
-import zIcon from '../components/zIcon.js'
-import zRadio from '../components/zRadio.js'
+import '../allComponents.js'
 
 export default class Home extends HTMLElement {
 	constructor() {
