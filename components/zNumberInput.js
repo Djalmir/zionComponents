@@ -1,5 +1,37 @@
 const style = document.createElement('style')
 style.innerText = /*css*/`
+	:root {
+		--dark-bg1: #1b1b1b;
+		--dark-bg2: #242424;
+		--dark-bg3: #3f3f3f;
+		--dark-bg4: #6b6b6b;
+
+		--light-bg1: #bdbdbd;
+		--light-bg2: #dddddd;
+		--light-bg3: #ededed;
+		--light-bg4: #fefefe;
+
+		--dark-font1: #1a1a1a;
+		--dark-font2: #333333;
+
+		--light-font1: #dddddd;
+		--light-font2: #fdfdfd;
+
+		--primary: #0059ff;
+		--primary-light: #4385ff;
+
+		--secondary: #4e4e57;
+		--secondary-light: #a5a5b3;
+
+		--danger: #be0000;
+		--danger-light: #ff5757;
+
+		--success: #00921d;
+		--success-light: #25e94c;
+
+		--box-shadow: 1px 1px 2px #000000d0;
+	}
+
 	:host {
 		border: none!important;
 		background: transparent!important;
