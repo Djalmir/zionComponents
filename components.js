@@ -1,11 +1,5 @@
-import zCheckboxComponent from './components/zCheckbox.js'
-import zIconComponent from './components/zIcon.js'
-import zInputComponent from './components/zInput.js'
-import zNumberInputComponent from './components/zNumberInput.js'
-import zRadioComponent from './components/zRadio.js'
-
-export const zCheckbox = zCheckboxComponent
-export const zIcon = zIconComponent
-export const zInput = zInputComponent
-export const zNumberInput = zNumberInputComponent
-export const zRadio = zRadioComponent
+export { default as zCheckboxComponent } from './components/zCheckbox.js'
+export { default as zIconComponent } from './components/zIcon.js'
+export { default as zInputComponent } from './components/zInput.js'
+export { default as zNumberInputComponent } from './components/zNumberInput.js'
+export { default as zRadioComponent } from './components/zRadio.js'
