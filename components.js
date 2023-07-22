@@ -9,11 +9,3 @@ export const zIcon = zIconComponent
 export const zInput = zInputComponent
 export const zNumberInput = zNumberInputComponent
 export const zRadio = zRadioComponent
-
-export default {
-	zCheckbox,
-	zIcon,
-	zInput,
-	zNumberInput,
-	zRadio
-}
