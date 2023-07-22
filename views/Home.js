@@ -177,7 +177,7 @@ template.innerHTML = /*html*/`
 				<div class="flexDiv">
 					<z-input placeholder="Endereço" style="flex: 2;" class="secondary input"></z-input>
 					<z-number-input type="number" placeholder="Número" class="secondary input" min="0"></z-number-input>
-				</div>				
+				</div>
 			</div>
 			<div class="card">
 				<b class="title">Checkboxes</b>

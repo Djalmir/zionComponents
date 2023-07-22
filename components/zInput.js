@@ -121,10 +121,10 @@ export default class zInput extends HTMLElement {
 	constructor() {
 		super()
 		this.attachShadow({ mode: 'open' })
-		const globalStyles = [...Array.from(document.querySelectorAll('[rel=stylesheet]')), ...Array.from(document.querySelectorAll('head style'))]
-		globalStyles.map((style) => {
-			this.shadowRoot.appendChild(style.cloneNode(true))
-		})
+		// const globalStyles = [...Array.from(document.querySelectorAll('[rel=stylesheet]')), ...Array.from(document.querySelectorAll('head style'))]
+		// globalStyles.map((style) => {
+		// 	this.shadowRoot.appendChild(style.cloneNode(true))
+		// })
 		this.shadowRoot.appendChild(style.cloneNode(true))
 		this.themeStyle = null
 		this.updateTheme = () => {
@@ -168,6 +168,10 @@ export default class zInput extends HTMLElement {
 		if (this.getAttribute('maxlength') || this.maxLength)
 			this.shadowRoot.querySelector('input').maxLength = this.getAttribute('maxlength') || this.maxLength
 		this.shadowRoot.querySelector('b').innerText = this.getAttribute('placeholder') || this.placeholder
+
+		this.checkValidity = () => {
+			return this.shadowRoot.querySelector('input').checkValidity()
+		}
 
 	}
 

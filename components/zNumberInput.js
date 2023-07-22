@@ -161,10 +161,10 @@ export default class zNumberInput extends HTMLElement {
 	constructor() {
 		super()
 		this.attachShadow({ mode: 'open' })
-		const globalStyles = [...Array.from(document.querySelectorAll('[rel=stylesheet]')), ...Array.from(document.querySelectorAll('head style'))]
-		globalStyles.map((style) => {
-			this.shadowRoot.appendChild(style.cloneNode(true))
-		})
+		// const globalStyles = [...Array.from(document.querySelectorAll('[rel=stylesheet]')), ...Array.from(document.querySelectorAll('head style'))]
+		// globalStyles.map((style) => {
+		// 	this.shadowRoot.appendChild(style.cloneNode(true))
+		// })
 		this.shadowRoot.appendChild(style.cloneNode(true))
 		this.themeStyle = null
 		this.updateTheme = () => {

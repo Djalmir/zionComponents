@@ -7,22 +7,6 @@ style.textContent = /*css*/`
 	border: none !important;
 	box-shadow: none !important;
 
-	--dark-bg1: #1b1b1b;
-	--dark-bg2: #242424;
-	--dark-bg3: #3f3f3f;
-	--dark-bg4: #6b6b6b;
-
-	--light-bg1: #bdbdbd;
-	--light-bg2: #dddddd;
-	--light-bg3: #ededed;
-	--light-bg4: #fefefe;
-
-	--dark-font1: #1a1a1a;
-	--dark-font2: #333333;
-
-	--light-font1: #dddddd;
-	--light-font2: #fdfdfd;
-
 	--primary: #0059ff;
 	--primary-light: #4385ff;
 
@@ -34,8 +18,6 @@ style.textContent = /*css*/`
 
 	--success: #00921d;
 	--success-light: #25e94c;
-
-	--box-shadow: 1px 1px 2px #000000d0;
 
 	--activeColor: var(--primary);
 	--checkColor: var(--light-font2);
@@ -103,10 +85,10 @@ export default class zCheckbox extends HTMLElement {
 	constructor() {
 		super()
 		this.attachShadow({ mode: 'open' })
-		const globalStyles = [...Array.from(document.querySelectorAll('[rel=stylesheet]')), ...Array.from(document.querySelectorAll('head style'))]
-		globalStyles.map((style) => {
-			this.shadowRoot.appendChild(style.cloneNode(true))
-		})
+		// const globalStyles = [...Array.from(document.querySelectorAll('[rel=stylesheet]')), ...Array.from(document.querySelectorAll('head style'))]
+		// globalStyles.map((style) => {
+		// 	this.shadowRoot.appendChild(style.cloneNode(true))
+		// })
 		this.shadowRoot.appendChild(style.cloneNode(true))
 
 		let themeClasses = ['primary', 'primary-light', 'secondary', 'secondary-light', 'danger', 'danger-light', 'success', 'success-light']
