@@ -95,41 +95,19 @@ export default class zButton extends HTMLElement {
 						}
 					`
 					this.shadowRoot.appendChild(this.themeStyle)
-					console.log(this.themeStyle)
 				}
 
 			})
 		}
 		this.shadowRoot.appendChild(template.content.cloneNode(true))
-		if (this.getAttribute('id'))
-			this.shadowRoot.querySelector('button').id = this.getAttribute('id')
-		if (this.classList.length) {
-			Array.from(this.classList).map((className) => {
-				this.shadowRoot.querySelector('button').classList.add(className)
+		if (this.attributes.length) {
+			Array.from(this.attributes).map((attr) => {
+				this.shadowRoot.querySelector('button').setAttribute(attr.name, attr.value)
 			})
-		}
-		if (this.getAttribute('style')){
-			console.log(this.getAttribute('style'))
-			this.shadowRoot.querySelector('button').style = this.getAttribute('style')
 		}
 		this.updateTheme()
 
 	}
-
-	// static get observedAttributes() {
-	// 	return ['class']
-	// }
-
-	// attributeChangedCallback(attribute, oldValue, newValue) {
-	// 	switch (attribute) {
-	// 		case 'class':
-	// 			if (this.getAttribute('class').length) {
-	// 				this.shadowRoot.querySelector('button').class = this.getAttribute('class')
-	// 				this.updateTheme()
-	// 			}
-	// 			break
-	// 	}
-	// }
 }
 
 customElements.define('z-button', zButton)
