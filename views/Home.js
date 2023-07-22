@@ -167,12 +167,15 @@ template.innerHTML = /*html*/`
 	<section id="previewsWrapper">
 		<div id="previews">
 			<div class="card">
+				<b class="title">Buttons</b>
+				<div style="display: flex; align-items: center; justify-content: space-between; gap: 7px; flex-wrap: wrap;">
+					<fragment z-for="className in themeClasses">
+						<z-button class="{{className}}" style="min-width: 100px;">Clique aqui</z-button>
+					</fragment>
+				</div>
+			</div>
+			<div class="card">
 				<b class="title">Inputs</b>
-				<form>
-					<div class="flexDiv">
-						<z-input type="email" placeholder="email" autocomplete="email" z-model="email" class="primary-light"></z-input>
-					</div>
-				</form>
 				<div class="flexDiv">
 					<z-input placeholder="Nome" class="secondary input"></z-input>
 					<z-input type="tel" placeholder="Whatsapp" z-oninput="setPhoneMask" class="secondary input">
@@ -230,15 +233,13 @@ template.innerHTML = /*html*/`
 </div>
 `
 
-import '../allComponents.js'
+import '../zionComponents.js'
 
 export default class Home extends HTMLElement {
 	constructor() {
 		super()
 		this.watch = {}
 		this.attachShadow({ mode: 'open' })
-
-		this.email = ''
 
 		this.shadowRoot.appendChild(style.cloneNode(true))
 		this.shadowRoot.appendChild(template.content.cloneNode(true))

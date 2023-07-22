@@ -1,3 +1,4 @@
+export { default as zButton } from './components/zButton.js'
 export { default as zCheckbox } from './components/zCheckbox.js'
 export { default as zIcon } from './components/zIcon.js'
 export { default as zInput } from './components/zInput.js'
