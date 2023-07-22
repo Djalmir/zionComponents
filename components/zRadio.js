@@ -1,6 +1,13 @@
 const style = document.createElement('style')
 style.textContent = /*css*/`
-:root {
+
+:host {
+	display: inline-block;
+	vertical-align: middle;
+	background: none !important;
+	border: none !important;
+	box-shadow: none !important;
+
 	--dark-bg1: #1b1b1b;
 	--dark-bg2: #242424;
 	--dark-bg3: #3f3f3f;
@@ -30,14 +37,7 @@ style.textContent = /*css*/`
 	--success-light: #25e94c;
 
 	--box-shadow: 1px 1px 2px #000000d0;
-}
 
-:host {
-	display: inline-block;
-	vertical-align: middle;
-	background: none !important;
-	border: none !important;
-	box-shadow: none !important;
 	--activeColor: var(--primary);
 }
 

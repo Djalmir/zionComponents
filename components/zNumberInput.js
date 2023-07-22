@@ -1,6 +1,11 @@
 const style = document.createElement('style')
 style.innerText = /*css*/`
-	:root {
+	:host {
+		border: none!important;
+		background: transparent!important;
+		box-shadow: none!important;
+		display: inline-block;
+
 		--dark-bg1: #1b1b1b;
 		--dark-bg2: #242424;
 		--dark-bg3: #3f3f3f;
@@ -30,13 +35,7 @@ style.innerText = /*css*/`
 		--success-light: #25e94c;
 
 		--box-shadow: 1px 1px 2px #000000d0;
-	}
 
-	:host {
-		border: none!important;
-		background: transparent!important;
-		box-shadow: none!important;
-		display: inline-block;
 		--input-left: 0;
 	}
 
