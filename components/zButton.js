@@ -106,8 +106,43 @@ export default class zButton extends HTMLElement {
 				this.shadowRoot.querySelector('button').setAttribute(attr.name, attr.value)
 			})
 		}
-		this.updateTheme()
+		// this.updateTheme()
 
+	}
+
+	get classList() {
+		return this.shadowRoot.querySelector('button').classList
+	}
+
+	set classList(newValue) {
+		this.shadowRoot.querySelector('button').setAttribute('classList', newValue)
+		this.updateTheme()
+	}
+
+	get class() {
+		return this.shadowRoot.querySelector('button').getAttribute('class')
+	}
+
+	set class(newValue) {
+		this.shadowRoot.querySelector('button').setAttribute('class', newValue)
+		this.updateTheme()
+	}
+
+	static get observedAttributes() {
+		return ['classList', 'class']
+	}
+
+	attributeChangedCallback(attribute, oldValue, newValue) {
+		switch (attribute) {
+			case 'classList':
+				this.shadowRoot.querySelector('button').setAttribute('classList', newValue)
+				this.updateTheme()
+				break
+			case 'class':
+				this.shadowRoot.querySelector('button').setAttribute('class', newValue)
+				this.updateTheme()
+				break
+		}
 	}
 
 	connectedCallback() {
