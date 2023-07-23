@@ -128,8 +128,16 @@ export default class zButton extends HTMLElement {
 		this.updateTheme()
 	}
 
+	get style() {
+		return this.shadowRoot.querySelector('button').style
+	}
+
+	set style(newValue) {
+		this.shadowRoot.querySelector('button').style = newValue
+	}
+
 	static get observedAttributes() {
-		return ['classList', 'class']
+		return ['classList', 'class', 'style']
 	}
 
 	attributeChangedCallback(attribute, oldValue, newValue) {
@@ -141,6 +149,9 @@ export default class zButton extends HTMLElement {
 			case 'class':
 				this.shadowRoot.querySelector('button').setAttribute('class', newValue)
 				this.updateTheme()
+				break
+			case 'style':
+				this.shadowRoot.querySelector('button').setAttribute('style', newValue)
 				break
 		}
 	}

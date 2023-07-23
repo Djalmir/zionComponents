@@ -292,6 +292,15 @@ export default class Home extends HTMLElement {
 				this.svgLib = arr
 				this.filteredSvgLib = arr
 			})
+
+		// const testBt = this.shadowRoot.querySelector('#previews').insertBefore(document.createElement('z-button'), this.shadowRoot.querySelector('#previews').firstChild)
+		// testBt.id = 'testBt'
+		// testBt.setAttribute('class', 'primary-light')
+		// testBt.style = `
+		// 	border-radius: 50% !important;
+		// 	background-color: white;
+		// `
+		// testBt.innerText = 'Teste'
 	}
 
 	connectedCallback() {
