@@ -177,21 +177,24 @@ template.innerHTML = /*html*/`
 			<div class="card">
 				<b class="title">Inputs</b>
 				<div class="flexDiv">
-					<z-input placeholder="Nome" class="secondary input"></z-input>
+					<z-input placeholder="Nome" class="secondary input" z-model="name"></z-input>
 					<z-input type="tel" placeholder="Whatsapp" z-oninput="setPhoneMask" class="secondary input">
 						<!--<z-icon class="message-circle" size="1.5" slot="left-slot" style="transform: translateY(2px); padding: 0 3px; stroke: transparent"></z-icon>-->
 					</z-input>
 				</div>
 				<div class="flexDiv">
-					<z-input placeholder="Endereço" style="flex: 2;" class="secondary input"></z-input>
-					<z-number-input type="number" placeholder="Número" class="secondary input" min="0"></z-number-input>
+					<z-input placeholder="Endereço" style="flex: 2;" class="secondary input" z-onchange="test"></z-input>
+					<z-number-input type="number" placeholder="Número" class="secondary input" min="0" z-onchange="test"></z-number-input>
+				</div>
+				<div class="flexDiv">
+					<z-textarea class="secondary input" placeholder="Observações" rows="3"></z-textarea>
 				</div>
 			</div>
 			<div class="card">
 				<b class="title">Checkboxes</b>
 				<div class="checkboxesGrid">
 					<label z-for="className in themeClasses">
-						<z-checkbox class="{{className}}" checked="true"></z-checkbox>
+						<z-checkbox class="{{className}}" checked="true" z-onchange="test"></z-checkbox>
 						<span>{{className}}</span>
 					</label>
 				</div>
@@ -200,7 +203,7 @@ template.innerHTML = /*html*/`
 				<b class="title">Radios</b>
 				<div class="checkboxesGrid">
 					<label z-for="className in themeClasses">
-						<z-radio z-model="radiobuttonsTheme" value="{{className}}" class="{{className}}"></z-radio>
+						<z-radio name="radiobuttons" z-model="radiobuttonsTheme" value="{{className}}" class="{{className}}" z-onchange="test2"></z-radio>
 						<span>{{className}}</span>
 					</label>
 				</div>
@@ -217,7 +220,7 @@ template.innerHTML = /*html*/`
 						<z-icon class="search" size="1.5"></z-icon>
 					</div>
 					<div slot="right-slot" style="display: grid; place-items:center;">
-						<z-icon id="clearSearchButton" class="close" z-if="iconSearch" size="1.2" z-onclick="()=>{ this.iconSearch = ''}"></z-icon>
+						<z-icon id="clearSearchButton" class="x" z-if="iconSearch" size="1.2" z-onclick="()=>{ this.iconSearch = ''}"></z-icon>
 					</div>
 				</z-input>
 			</div>
@@ -262,6 +265,11 @@ export default class Home extends HTMLElement {
 			}
 		}
 
+		this.name = ''
+		this.watch.name = () => {
+			console.log(`Nome: ${ this.name }`)
+		}
+
 		this.themeClasses = ['primary', 'primary-light', 'secondary', 'secondary-light', 'danger', 'danger-light', 'success', 'success-light']
 		this.iconSearch = ''
 		this.radiobuttonsTheme = 'primary'
@@ -293,6 +301,15 @@ export default class Home extends HTMLElement {
 				this.filteredSvgLib = arr
 			})
 
+		this.test = (e) => {
+			console.log('test', e.target.value || e.target.checked)
+		}
+
+		this.test2 = () => {
+			setTimeout(() => {
+				console.log(this.radiobuttonsTheme)
+			}, 0)
+		}
 		// const testBt = this.shadowRoot.querySelector('#previews').insertBefore(document.createElement('z-button'), this.shadowRoot.querySelector('#previews').firstChild)
 		// testBt.id = 'testBt'
 		// testBt.setAttribute('class', 'primary-light')

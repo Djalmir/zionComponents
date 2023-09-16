@@ -6,6 +6,8 @@ style.textContent = /*css*/`
 	background: none !important;
 	border: none !important;
 	box-shadow: none !important;
+	padding: 0!important;
+	margin: 0!important;
 
 	--dark-bg0: #161616;
 	--dark-bg1: #1b1b1b;
@@ -37,7 +39,6 @@ style.textContent = /*css*/`
 	--success-light: #25e94c;
 
 	--box-shadow: 1px 1px 2px #000000d0;
-
 }
 
 button {
@@ -101,10 +102,13 @@ export default class zButton extends HTMLElement {
 			})
 		}
 		this.shadowRoot.appendChild(template.content.cloneNode(true))
-		if (this.attributes.length) {
-			Array.from(this.attributes).map((attr) => {
-				this.shadowRoot.querySelector('button').setAttribute(attr.name, attr.value)
-			})
+		// if (this.attributes.length) {
+		// 	Array.from(this.attributes).map((attr) => {
+		// 		this.shadowRoot.querySelector('button').setAttribute(attr.name, attr.value)
+		// 	})
+		// }
+		if (this.style) {
+			this.shadowRoot.querySelector('button').style = this.style
 		}
 		// this.updateTheme()
 

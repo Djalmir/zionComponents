@@ -58,7 +58,7 @@ style.innerText = /*css*/`
 		box-shadow: var(--box-shadow);
 	}
 
-	input {
+	textarea {
 		width: 100%;
 		border-radius: .1rem;
 		padding: 5px 7px;
@@ -70,13 +70,13 @@ style.innerText = /*css*/`
 		font-size: inherit;
 	}
 
-	input::placeholder {
+	textarea::placeholder {
 		opacity: 0;
 		color: transparent;
 	}
 
-	input:focus,
-	input:not(:placeholder-shown) {
+	textarea:focus,
+	textarea:not(:placeholder-shown) {
 		box-shadow: inset 0 0 5px #00000070;
 	}
 
@@ -95,8 +95,8 @@ style.innerText = /*css*/`
 		transform: scale(.85) translate(-10%, 15%);
 	}
 
-	input:placeholder-shown:not(:focus) ~ b {
-		bottom: 50%;		
+	textarea:placeholder-shown:not(:focus) ~ b {
+		bottom: 80%;
 		transform: translateY(50%);
 		left: var(--input-left);
 		border: none;
@@ -111,13 +111,13 @@ const template = document.createElement('template')
 template.innerHTML = /*html*/`
 	<label>
 		<slot name="left-slot"></slot>
-		<input type="text" />
+		<textarea></textarea>
 		<b></b>
 		<slot name="right-slot"></slot>
 	</label>
 `
 
-export default class zInput extends HTMLElement {
+export default class zTextarea extends HTMLElement {
 	static get formAssociated() { return true }
 	constructor() {
 		super()
@@ -145,9 +145,9 @@ export default class zInput extends HTMLElement {
 							stroke: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
 						}
 
-						input:-webkit-autofill,
-						input:-webkit-autofill:hover,
-						input:-webkit-autofill:focus {
+						textarea:-webkit-autofill,
+						textarea:-webkit-autofill:hover,
+						textarea:-webkit-autofill:focus {
 							-webkit-box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--${ className }) !important;
 							box-shadow: inset 0 0 5px #000000d0, inset 0 0 0 1000px var(--${ className }) !important;
 							-webkit-text-fill-color: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' }) !important;
@@ -165,17 +165,19 @@ export default class zInput extends HTMLElement {
 		if (this.getAttribute('id'))
 			this.shadowRoot.querySelector('label').id = this.getAttribute('id')
 
-		this.shadowRoot.querySelector('input').value = this.getAttribute('value') || this.value
-		this.shadowRoot.querySelector('input').placeholder = this.getAttribute('placeholder') || this.placeholder
-		if (this.getAttribute('maxlength') || this.maxLength)
-			this.shadowRoot.querySelector('input').maxLength = this.getAttribute('maxlength') || this.maxLength
-		this.shadowRoot.querySelector('input').addEventListener('change', () => {
+		this.textarea = this.shadowRoot.querySelector('textarea')
+		if (this.attributes.length) {
+			Array.from(this.attributes).map((attr) => {
+				this.textarea.setAttribute(attr.name, attr.value)
+			})
+		}
+		this.textarea.addEventListener('change', () => {
 			this.dispatchEvent(new Event('change'))
 		})
 		this.shadowRoot.querySelector('b').innerText = this.getAttribute('placeholder') || this.placeholder
 
 		this.checkValidity = () => {
-			return this.shadowRoot.querySelector('input').checkValidity()
+			return this.textarea.checkValidity()
 		}
 
 	}
@@ -188,24 +190,24 @@ export default class zInput extends HTMLElement {
 	}
 
 	get value() {
-		return this.shadowRoot.querySelector('input').value
+		return this.shadowRoot.querySelector('textarea').value
 	}
 	set value(val) {
-		this.shadowRoot.querySelector('input').value = val
+		this.shadowRoot.querySelector('textarea').value = val
 	}
 
 	get maxLength() {
-		return this.shadowRoot.querySelector('input').getAttribute('maxlength')
+		return this.shadowRoot.querySelector('textarea').getAttribute('maxlength')
 	}
 	set maxLength(val) {
-		this.shadowRoot.querySelector('input').setAttribute('maxlength', val)
+		this.shadowRoot.querySelector('textarea').setAttribute('maxlength', val)
 	}
 
 	get type() {
-		return this.shadowRoot.querySelector('input').getAttribute('type')
+		return this.shadowRoot.querySelector('textarea').getAttribute('type')
 	}
 	set type(val) {
-		this.shadowRoot.querySelector('input').setAttribute('type', val)
+		this.shadowRoot.querySelector('textarea').setAttribute('type', val)
 	}
 
 
@@ -224,7 +226,7 @@ export default class zInput extends HTMLElement {
 					this.updateTheme()
 				break
 			default:
-				element = this.shadowRoot.querySelector('input')
+				element = this.shadowRoot.querySelector('textarea')
 		}
 		if (element && attribute.startsWith('on')) {
 			element.addEventListener(attribute.slice(2), eval(newValue))
@@ -237,7 +239,7 @@ export default class zInput extends HTMLElement {
 
 	connectedCallback() {
 		setTimeout(() => {
-			this.shadowRoot.host.style.setProperty('--input-left', this.shadowRoot.querySelector('input').getBoundingClientRect().x - this.getBoundingClientRect().x + 7 + 'px')
+			this.shadowRoot.host.style.setProperty('--input-left', this.shadowRoot.querySelector('textarea').getBoundingClientRect().x - this.getBoundingClientRect().x + 7 + 'px')
 			setTimeout(() => {
 				this.shadowRoot.querySelector('b').style.transition = 'all .2s ease-out, background 0s, color 0s'
 			}, 250)
@@ -245,7 +247,7 @@ export default class zInput extends HTMLElement {
 
 		const { internals: { form } } = this
 
-		this.shadowRoot.querySelector('input').addEventListener('keydown', (e) => {
+		this.shadowRoot.querySelector('textarea').addEventListener('keydown', (e) => {
 			// console.log('this.internals', this.internals)
 			if (e.key == 'Enter' && form)
 				form.onsubmit()
@@ -254,4 +256,4 @@ export default class zInput extends HTMLElement {
 	}
 }
 
-customElements.define('z-input', zInput)
+customElements.define('z-textarea', zTextarea)

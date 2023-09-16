@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<style>
+			body {
+				background: #121212;
+				padding: 30px;
+				color: #ddd;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div style="display: flex; align-items: center; justify-content: space-between; max-width: 410px; margin: auto;">
+			<z-input id="textInput" placeholder="Digite aqui" class="secondary" onchange="()=>console.log('textInput: ', this.value)" style="margin: 0;">
+				<div slot="left-slot" style="display: grid; place-items: center; padding: 2px;">
+					<z-icon class="chevron-right" size="1.5"></z-icon>
+				</div>
+				<div slot="right-slot" style="display: grid; place-items: center; padding: 2px;">
+					<z-icon class="chevron-left" size="1.5"></z-icon>
+				</div>
+			</z-input>
+			<z-button class="primary" onclick="alert(textInput.value)" style="display: flex; gap: 7px; align-items: center; padding: 4.2px 13px 4.2px 9px; white-space: nowrap; margin: 0;">
+				<z-icon class="check" size="1.5" style="fill:var(--primary); stroke: var(--success-light); stroke-width: 1.5;"></z-icon>
+				<span>Clique aqui</span>
+			</z-button>
+		</div>
+		<div style="display: flex; justify-content: space-between; max-width: 410px; margin: 33px auto;">
+			<div style="display: flex; flex-direction: column; gap: 7px;">
+				<label>
+					<z-checkbox class="success" onchange="()=>console.log('checkbox 1', this.checked)"></z-checkbox>
+					<span>Checkbox 1</span>
+				</label>
+				<label>
+					<z-checkbox class="primary-light" onchange="()=>console.log('checkbox 2', this.checked)"></z-checkbox>
+					<span>Checkbox 2</span>
+				</label>
+			</div><br />
+			<div style="display: flex; flex-direction: column; gap: 7px;">
+				<label>
+					<z-radio class="primary-light" name="radio" value="1" onchange="()=>console.log('selected radio:', this.value)"></z-radio>
+					<span>Radio 1</span>
+				</label>
+				<label>
+					<z-radio class="success" name="radio" value="2" onchange="()=>console.log('selected radio:', this.value)"></z-radio>
+					<span>Radio 2</span>
+				</label>
+			</div>
+		</div>
+		<div style="display: flex; flex-direction: row-reverse; max-width: 410px; margin: auto;">
+			<z-number-input class="secondary" placeholder="Insira um número" style="max-width: 200px;" onchange="()=>console.log('number: ', this.value)">
+				<div slot="left-slot" style="display: grid; place-items: center; padding: 2px;">
+					<z-icon class="shield" size="1.5"></z-icon>
+				</div>
+			</z-number-input>
+		</div>
+
+		<script type="module" src="./zionComponents.js"></script>
+	</body>
+
+</html>

@@ -147,10 +147,10 @@ template.innerHTML = /*html*/`
 		<slot name="right-slot"></slot>
 		<div class="spinnerButtonsWrapper">
 			<div class="spinnerButton" id="upSpinnerButton">
-				<z-icon class="up-caret" size="1.25"></z-icon>
+				<z-icon class="chevron-up" size="1.25"></z-icon>
 			</div>
 			<div class="spinnerButton" id="downSpinnerButton">
-				<z-icon class="down-caret" size="1.25"></z-icon>
+				<z-icon class="chevron-down" size="1.25"></z-icon>
 			</div>
 		</div>
 	</label>
@@ -158,8 +158,10 @@ template.innerHTML = /*html*/`
 
 import zIcon from './zIcon.js'
 export default class zNumberInput extends HTMLElement {
+	static get formAssociated() { return true }
 	constructor() {
 		super()
+		this.internals = this.attachInternals()
 		this.attachShadow({ mode: 'open' })
 		// const globalStyles = [...Array.from(document.querySelectorAll('[rel=stylesheet]')), ...Array.from(document.querySelectorAll('head style'))]
 		// globalStyles.map((style) => {
@@ -220,16 +222,26 @@ export default class zNumberInput extends HTMLElement {
 		this.input.placeholder = this.getAttribute('placeholder') || this.placeholder
 		if (this.getAttribute('maxlength') || this.maxLength)
 			this.input.maxLength = this.getAttribute('maxlength') || this.maxLength
+		this.input.addEventListener('change', () => {
+			this.dispatchEvent(new Event('change'))
+		})
 		this.shadowRoot.querySelector('b').innerText = this.getAttribute('placeholder') || this.placeholder
 
 		this.steps = this.getAttribute('step') || this.step || 1
 		this.minValue = this.getAttribute('min') || this.min
 		this.maxValue = this.getAttribute('max') || this.max
-		this.shadowRoot.querySelector('#upSpinnerButton').addEventListener('click', (e) => {
+		const dispatchEvents = () => {
+			this.dispatchEvent(new Event('input'))
+			this.input.dispatchEvent(new Event('input'))
+			this.input.dispatchEvent(new Event('change'))
+		}
+		this.shadowRoot.querySelector('#upSpinnerButton').addEventListener('mouseup', (e) => {
 			this.value = Number(this.value) + Number(this.steps)
+			dispatchEvents()
 		})
-		this.shadowRoot.querySelector('#downSpinnerButton').addEventListener('click', (e) => {
+		this.shadowRoot.querySelector('#downSpinnerButton').addEventListener('mouseup', (e) => {
 			this.value -= this.steps
+			dispatchEvents()
 		})
 	}
 
@@ -261,10 +273,11 @@ export default class zNumberInput extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return ['placeholder', 'value', 'maxlength', 'class']
+		return ['placeholder', 'value', 'maxlength', 'class', 'oninput', 'onblur', 'onchange', 'onclick', 'oncontextmenu', 'oncopy', 'ondblclick', 'onerror', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseup', 'onpaste', 'onsubmit', 'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart']
 	}
 
 	attributeChangedCallback(attribute, oldValue, newValue) {
+		let element
 		switch (attribute) {
 			case 'placeholder':
 				this.shadowRoot.querySelector('b').innerText = newValue
@@ -276,15 +289,20 @@ export default class zNumberInput extends HTMLElement {
 				if (this.minValue)
 					if (Number(newValue) < Number(this.minValue))
 						return
-				this.shadowRoot.querySelector('input').value = newValue
-				break
-			case 'maxlength':
-				this.shadowRoot.querySelector('input').setAttribute('maxlength', newValue)
+				element = this.shadowRoot.querySelector('input')
 				break
 			case 'class':
 				if (this.getAttribute('class').length)
 					this.updateTheme()
 				break
+			default:
+				element = this.shadowRoot.querySelector('input')
+		}
+		if (element && attribute.startsWith('on')) {
+			element.addEventListener(attribute.slice(2), eval(newValue))
+		}
+		else if (element && element.hasAttribute(attribute)) {
+			element.setAttribute(attribute, newValue)
 		}
 	}
 
@@ -295,6 +313,14 @@ export default class zNumberInput extends HTMLElement {
 				this.shadowRoot.querySelector('b').style.transition = 'all .2s ease-out, background 0s, color 0s'
 			}, 250)
 		}, 0)
+
+		const { internals: { form } } = this
+
+		this.shadowRoot.querySelector('input').addEventListener('keydown', (e) => {
+			// console.log('this.internals', this.internals)
+			if (e.key == 'Enter' && form)
+				form.onsubmit()
+		})
 
 	}
 }

@@ -37,12 +37,13 @@ input {
 	max-width: 1.15em;
 	max-height: 1.15em;
 	border: .15em solid #fff;
+	outline: none;
 	border-radius: 50%;
 	transform: translateY(-0.075em);
 	display: grid;
 	place-content: center;
 	transition: .2s;
-	cursor: pointer;
+	cursor: inherit;
 	box-shadow: 1px 1px 2px #000000d0;
 }
 
@@ -160,14 +161,16 @@ export default class zRadio extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return ['checked']
+		return ['checked', 'onblur', 'onchange', 'onclick', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseup', 'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart']
 	}
 
 	attributeChangedCallback(attribute, oldValue, newValue) {
-		switch (attribute) {
-			case 'checked':
-				this.input.checked = newValue
-				break
+		let element = this.input
+		if (element && attribute.startsWith('on')) {
+			element.addEventListener(attribute.slice(2), eval(newValue))
+		}
+		else if (element && element.hasAttribute(attribute)) {
+			element.setAttribute(attribute, newValue)
 		}
 	}
 }

@@ -5,6 +5,7 @@ style.textContent = /*css*/`
 	vertical-align: middle;
 	background: none !important;
 	border: none !important;
+	outline: none !important;
 	box-shadow: none !important;
 
 	--primary: #0059ff;
@@ -18,6 +19,12 @@ style.textContent = /*css*/`
 
 	--success: #00921d;
 	--success-light: #25e94c;
+
+	--dark-font1: #1a1a1a;
+	--dark-font2: #333333;
+
+	--light-font1: #dddddd;
+	--light-font2: #fdfdfd;
 
 	--activeColor: var(--primary);
 	--checkColor: var(--light-font2);
@@ -33,6 +40,7 @@ input {
 	height: 1.15em;
 	min-height: 1.15em;
 	border: .15em solid #fff;
+	outline: none;
 	border-radius: .2rem;
 	transform: translateY(-0.075em);
 	display: grid;
@@ -112,6 +120,9 @@ export default class zCheckbox extends HTMLElement {
 		this.input.checked = this.getAttribute('checked') || this.checked
 
 		this.input.addEventListener('click', (e) => { e.stopPropagation() })
+		this.input.addEventListener('change', () => {
+			this.dispatchEvent(new Event('change'))
+		})
 
 		this.label = null
 		if (this.shadowRoot.host.parentElement.tagName == 'LABEL')
@@ -151,14 +162,16 @@ export default class zCheckbox extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return ['checked']
+		return ['checked', 'onblur', 'onchange', 'onclick', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseup', 'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart']
 	}
 
 	attributeChangedCallback(attribute, oldValue, newValue) {
-		switch (attribute) {
-			case 'checked':
-				this.input.checked = eval(newValue)
-				break
+		let element = this.input
+		if (element && attribute.startsWith('on')) {
+			element.addEventListener(attribute.slice(2), eval(newValue))
+		}
+		else if (element && element.hasAttribute(attribute)) {
+			element.setAttribute(attribute, newValue)
 		}
 	}
 }
