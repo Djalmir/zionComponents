@@ -93,7 +93,7 @@ style.innerText = /*css*/`
 		border-radius: .2rem .2rem 0 0;
 		padding: 2px 5px 0;
 		transform: scale(.85) translate(-10%, 15%);
-		user-select: none;
+		pointer-events: none;
 	}
 
 	input:placeholder-shown:not(:focus) ~ b {

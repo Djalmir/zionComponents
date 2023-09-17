@@ -53,6 +53,7 @@ button {
 	margin: 13px 0;
 	transition: .1s;
 	box-shadow: var(--box-shadow);
+	user-select: none;
 }
 
 button:hover,

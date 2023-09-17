@@ -144,6 +144,7 @@ style.innerText = /*css*/`
 		border-radius: .2rem .2rem 0 0;
 		padding: 2px 5px 0;
 		transform: scale(.85) translate(-10%, -100%);
+		pointer-events: none;
 	}
 
 	textarea:placeholder-shown:not(:focus) ~ b {
