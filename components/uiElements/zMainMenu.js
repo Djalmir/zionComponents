@@ -112,6 +112,7 @@ style.textContent = /*css*/`
 		opacity: 0;
 		transition: opacity .2s;
 		display: block;
+		backdrop-filter: blur(2px);
 	}
 
 	:host(.lightTheme) #shadow {
