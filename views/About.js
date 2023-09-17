@@ -10,12 +10,12 @@ style.textContent = /*css*/`
 
 const template = document.createElement('template')
 template.innerHTML = /*html*/`
+	<div id='view' class='${ app.darkTheme ? 'darkTheme' : 'lightTheme' }'>
 
-	<h1>{{message}}</h1>
-	
-
+		<h1>{{message}}</h1>
+		
+	</div>
 `
-
 export default class About extends HTMLElement {
 	constructor() {
 		super()

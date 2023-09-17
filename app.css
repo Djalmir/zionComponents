@@ -1,13 +1,21 @@
 :root {
 	--dark-bg1: #1b1b1b;
+	--dark-bg1-transparent: #1b1b1b99;
 	--dark-bg2: #242424;
+	--dark-bg2-transparent: #24242499;
 	--dark-bg3: #3f3f3f;
+	--dark-bg3-transparent: #3f3f3f99;
 	--dark-bg4: #6b6b6b;
+	--dark-bg4-transparent: #6b6b6b99;
 
 	--light-bg1: #bdbdbd;
+	--light-bg1-transparent: #bdbdbd99;
 	--light-bg2: #dddddd;
+	--light-bg2-transparent: #dddddd99;
 	--light-bg3: #ededed;
+	--light-bg3-transparent: #ededed99;
 	--light-bg4: #fefefe;
+	--light-bg4-transparent: #fefefe99;
 
 	--dark-font1: #1a1a1a;
 	--dark-font2: #333333;
@@ -55,7 +63,7 @@
 
 ::-webkit-scrollbar-track {
 	background-color: var(--scroll-track-bg);
-	
+
 }
 
 ::-webkit-scrollbar-thumb {
@@ -84,7 +92,7 @@
 body {
 	background: var(--dark-bg2);
 	color: var(--light-font1);
-	padding: 27px 0 52px;
+	padding: 0 0 52px;
 	font-size: 16px;
 	transition: background .4s;
 }

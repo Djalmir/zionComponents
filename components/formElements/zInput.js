@@ -210,7 +210,7 @@ export default class zInput extends HTMLElement {
 
 
 	static get observedAttributes() {
-		return ['placeholder', 'value', 'maxlength', 'class', 'type', 'oninput', 'onblur', 'onchange', 'onclick', 'oncontextmenu', 'oncopy', 'ondblclick', 'onerror', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseup', 'onpaste', 'onsubmit', 'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart']
+		return ['placeholder', 'modelValue', 'value', 'maxlength', 'class', 'type', 'oninput', 'onblur', 'onchange', 'onclick', 'oncontextmenu', 'oncopy', 'ondblclick', 'onerror', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseup', 'onpaste', 'onsubmit', 'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart']
 	}
 
 	attributeChangedCallback(attribute, oldValue, newValue) {

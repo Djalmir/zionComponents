@@ -13,6 +13,7 @@ section {
 #previews {
 	margin: auto;
 	display: flex;
+	align-items: flex-start;
 	gap: 35px;
 	width: fit-content;
 }
@@ -157,7 +158,7 @@ b.title {
 
 const template = document.createElement('template')
 template.innerHTML = /*html*/`
-<div id="view" class="${ app.darkTheme ? 'darkTheme' : 'lightTheme' }">
+<div class="${ app.darkTheme ? 'darkTheme' : 'lightTheme' }" style="margin-top: 75px;">
 	
 	<label style="cursor: pointer; margin-left: 5vw">
 		<z-checkbox z-model="darkTheme"></z-checkbox>
@@ -187,7 +188,7 @@ template.innerHTML = /*html*/`
 					<z-number-input type="number" placeholder="Número" class="secondary input" min="0" z-onchange="test"></z-number-input>
 				</div>
 				<div class="flexDiv">
-					<z-textarea class="secondary input" placeholder="Observações" rows="3"></z-textarea>
+					<z-textarea class="secondary input" placeholder="Observações" rows="5" style="max-width: 446px;" z-model="obs"></z-textarea>
 				</div>
 			</div>
 			<div class="card">
@@ -300,6 +301,11 @@ export default class Home extends HTMLElement {
 				this.svgLib = arr
 				this.filteredSvgLib = arr
 			})
+
+		this.obs = ''
+		this.watch.obs = () => {
+			console.log(`Obs: ${ this.obs }`)
+		}
 
 		this.test = (e) => {
 			console.log('test', e.target.value || e.target.checked)

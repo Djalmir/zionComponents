@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Zion Components - VueJS</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+		<style>
+			body {
+				background: #101010;
+				color: #ccc;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<!-- <input type="text" v-model="message"> -->
+			<z-input class="secondary" placeholder="Mensagem" v-model="message"></z-input>
+			<z-icon style="fill:white" :size="5" class="terminal"></z-icon>
+			<z-textarea class="secondary" placeholder="Mensagem" v-model="message"></z-textarea>
+			<br />
+			{{message}}
+		</div>
+
+		<script type="module">
+			import './zionComponents.js'
+			const app = new Vue({
+				el: '#app',
+				data: {
+					message: 'Olá VueJS'
+				}
+			})
+		</script>
+	</body>
+
+</html>

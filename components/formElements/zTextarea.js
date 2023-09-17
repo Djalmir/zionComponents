@@ -36,6 +36,11 @@ style.innerText = /*css*/`
 
 		--box-shadow: 1px 1px 2px #000000d0;
 
+		--scroll-track-bg: #191919;
+		--scroll-thumb-bg: #393939;
+		--scroll-thumb-hover-bg: #454545;
+		--scroll-thumb-active-bg: #303030;
+
 		--input-left: 0;
 	}
 
@@ -47,7 +52,8 @@ style.innerText = /*css*/`
 
 	label {
 		position: relative;
-		width: 100%;
+		width: fit-content;
+		height: fit-content;
 		background: #fff;
 		color: #555;
 		padding: 2px;
@@ -64,10 +70,55 @@ style.innerText = /*css*/`
 		padding: 5px 7px;
 		border: none;
 		outline: none;
-		transition: box-shadow .2s;
 		background: inherit;
 		color: inherit;
-		font-size: inherit;
+		font: inherit;
+	}
+
+	::-webkit-scrollbar {
+		background: transparent;
+		width: 7px;
+		height: 7px;
+	}
+	
+	::-webkit-scrollbar-track {
+		/*background-color: var(--scroll-track-bg);*/
+		background-color: transparent;	
+	}
+	
+	::-webkit-scrollbar-thumb {
+		background: var(--scroll-thumb-bg);
+		border-radius: 7px;
+	}
+	
+	::-webkit-scrollbar-thumb:hover {
+		background: var(--scroll-thumb-hover-bg);
+	}
+	
+	::-webkit-scrollbar-thumb:active {
+		background: var(--scroll-thumb-active-bg);
+		box-shadow: inset 1px 1px 1px var(--dark-bg1);
+	}
+	
+	::-webkit-scrollbar-corner {
+		background: transparent;
+	}
+
+	::-webkit-resizer {
+		background: linear-gradient(
+			to right bottom, 
+			transparent 49%, 
+			var(--scroll-thumb-active-bg) 49%, 
+			var(--scroll-thumb-active-bg) 55%, 
+			transparent 55%, 
+			transparent 69%, 
+			var(--scroll-thumb-active-bg) 69%, 
+			var(--scroll-thumb-active-bg) 75%, 
+			transparent 75%, 
+			transparent 89%, 
+			var(--scroll-thumb-active-bg)89%,
+			var(--scroll-thumb-active-bg)100%
+		);
 	}
 
 	textarea::placeholder {
@@ -82,7 +133,7 @@ style.innerText = /*css*/`
 
 	b {
 		position: absolute;
-		bottom: 100%;
+		top: 0%;
 		left: 7px;
 		font-size: inherit;
 		line-height: inherit;
@@ -92,11 +143,11 @@ style.innerText = /*css*/`
 		color: inherit;
 		border-radius: .2rem .2rem 0 0;
 		padding: 2px 5px 0;
-		transform: scale(.85) translate(-10%, 15%);
+		transform: scale(.85) translate(-10%, -100%);
 	}
 
 	textarea:placeholder-shown:not(:focus) ~ b {
-		bottom: 80%;
+		top: 0%;
 		transform: translateY(50%);
 		left: var(--input-left);
 		border: none;
@@ -139,6 +190,7 @@ export default class zTextarea extends HTMLElement {
 					this.themeStyle = document.createElement('style')
 					this.themeStyle.textContent = /*css*/`
 						.${ className } {
+							transition: .4s, width 0s, max-width 0s, height 0s, max-height 0s, box-shadow .2s;
 							background: var(--${ className });
 							color: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
 							fill: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
@@ -238,8 +290,18 @@ export default class zTextarea extends HTMLElement {
 
 
 	connectedCallback() {
+		let textarea = this.shadowRoot.querySelector('textarea')
 		setTimeout(() => {
-			this.shadowRoot.host.style.setProperty('--input-left', this.shadowRoot.querySelector('textarea').getBoundingClientRect().x - this.getBoundingClientRect().x + 7 + 'px')
+			this.style.setProperty('--input-left', textarea.getBoundingClientRect().x - this.getBoundingClientRect().x + 7 + 'px')
+			textarea.style.width = this.offsetWidth - 4 + 'px'
+			textarea.style.height = this.offsetHeight - 4 + 'px'
+			textarea.style.minWidth = this.shadowRoot.querySelector('b').offsetWidth + 14 + 'px'
+			textarea.style.minHeight = this.shadowRoot.querySelector('b').offsetHeight + 17 + 'px'
+			let slotsWidth = (this.querySelector("[slot='left-slot']")?.offsetWidth || 0) + (this.querySelector("[slot='right-slot']")?.offsetWidth || 0)
+			if (this.style.maxWidth)
+				this.textarea.style.maxWidth = this.style.maxWidth.replace('px', '') - 4 - slotsWidth + 'px'
+			if (this.style.maxHeight)
+				this.textarea.style.maxHeight = this.style.maxHeight.replace('px', '') - 4 + 'px'
 			setTimeout(() => {
 				this.shadowRoot.querySelector('b').style.transition = 'all .2s ease-out, background 0s, color 0s'
 			}, 250)
@@ -247,7 +309,7 @@ export default class zTextarea extends HTMLElement {
 
 		const { internals: { form } } = this
 
-		this.shadowRoot.querySelector('textarea').addEventListener('keydown', (e) => {
+		textarea.addEventListener('keydown', (e) => {
 			// console.log('this.internals', this.internals)
 			if (e.key == 'Enter' && form)
 				form.onsubmit()

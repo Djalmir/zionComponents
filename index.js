@@ -1,13 +1,15 @@
-// nameInput.addEventListener('update', (e) => {
-// 	console.log('update', e.detail)
-// })
-
 function mountApp(routes) {
 	if (!(app instanceof HTMLElement)) {
 		throw new ReferenceError('No router view element available for rendering')
 	}
 
-	app._darkTheme = true
+	//			CSS:	 @media (prefers-color-scheme: dark)
+	if (app._darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches) {
+		app.classList.add('darkTheme')
+	}
+	else {
+		app.classList.add('lightTheme')
+	}
 	Object.defineProperty(app, 'darkTheme', {
 		get: () => {
 			return app._darkTheme
@@ -26,10 +28,11 @@ function mountApp(routes) {
 
 		app.view.shadowRoot.insertBefore(globalStyle, app.view.shadowRoot.firstElementChild)
 
-		while (app.firstChild)
-			app.removeChild(app.firstChild)
-		app.appendChild(app.view)
+		while (viewContainer.firstChild)
+			viewContainer.removeChild(viewContainer.firstChild)
+		viewContainer.appendChild(app.view)
 
+		mainMenu.classList.add(app._darkTheme ? 'darkTheme' : 'lightTheme')
 		updateAppTheme()
 
 		ZION(app.view)
@@ -51,30 +54,31 @@ function mountApp(routes) {
 }
 
 function updateAppTheme() {
-	let viewContainer = app.view.shadowRoot.querySelector('#view')
-	if (app.view) {
-		if (app._darkTheme) {
-			if (viewContainer)
-				viewContainer.classList.replace('lightTheme', 'darkTheme')
-			else
-				console.warn(`Please add a container div with id=="view" to all your views, and make sure it wraps all the page elements.`)
-			app.view.shadowRoot.style = document.body.style = `
-				background: var(--dark-bg2);
-				color: var(--light-font1);
-			`
-		}
-		else {
-			if (viewContainer)
-				viewContainer.classList.replace('darkTheme', 'lightTheme')
-			else
-				console.warn(`Please add a container div with id=="view" to all your views, and make sure it wraps all the page elements.`)
-			app.view.shadowRoot.style = document.body.style = `
-				background: var(--light-bg2);
-				color: var(--dark-font1);
-			`
-		}
-		updateScrollbarTheme()
+	if (app._darkTheme) {
+		Array.from(document.querySelectorAll('[class="lightTheme"]')).map((element) => {
+			element.classList.replace('lightTheme', 'darkTheme')
+		})
+		Array.from(app.view?.shadowRoot?.querySelectorAll('[class="lightTheme"]')).map((element) => {
+			element.classList.replace('lightTheme', 'darkTheme')
+		})
+		document.body.style = `
+			background: var(--dark-bg2);
+			color: var(--light-font1);
+		`
 	}
+	else {
+		Array.from(document.querySelectorAll('[class="darkTheme"]')).map((element) => {
+			element.classList.replace('darkTheme', 'lightTheme')
+		})
+		Array.from(app.view?.shadowRoot?.querySelectorAll('[class="darkTheme"]')).map((element) => {
+			element.classList.replace('darkTheme', 'lightTheme')
+		})
+		document.body.style = `
+			background: var(--light-bg2);
+			color: var(--dark-font1);
+		`
+	}
+	updateScrollbarTheme()
 }
 
 let currentTrackBg = 191919
@@ -90,9 +94,7 @@ function updateScrollbarTheme() {
 		document.body.style.setProperty('--scroll-thumb-hover-bg', '#454545')
 		document.body.style.setProperty('--scroll-thumb-active-bg', '#303030')
 		if (currentTrackBg > 191919)
-			setTimeout(() => {
-				requestAnimationFrame(updateScrollbarTheme)
-			}, 20)
+			requestAnimationFrame(updateScrollbarTheme)
 	}
 	else {
 		if (currentTrackBg < 999999)
@@ -104,9 +106,7 @@ function updateScrollbarTheme() {
 		document.body.style.setProperty('--scroll-thumb-hover-bg', '#707070')
 		document.body.style.setProperty('--scroll-thumb-active-bg', '#505050')
 		if (currentTrackBg < 999999)
-			setTimeout(() => {
-				requestAnimationFrame(updateScrollbarTheme)
-			}, 20)
+			requestAnimationFrame(updateScrollbarTheme)
 	}
 }
 

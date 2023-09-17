@@ -156,7 +156,6 @@ template.innerHTML = /*html*/`
 	</label>
 `
 
-import zIcon from './zIcon.js'
 export default class zNumberInput extends HTMLElement {
 	static get formAssociated() { return true }
 	constructor() {

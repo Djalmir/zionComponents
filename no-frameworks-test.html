@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Document</title>
+		<title>Zion Components - HTML</title>
 		<style>
 			body {
 				background: #121212;
@@ -58,8 +58,23 @@
 				</div>
 			</z-number-input>
 		</div>
+		<div style="max-width: 410px; margin: 33px auto;">
+			<z-textarea placeholder="Deixe aqui suas opiniões" id="opinionsTextarea" class="secondary" style="width: 100%; max-width: 410px; max-height: 200px;" oninput="()=>console.log('textarea: ', this.value)">
+				<div slot="left-slot" style="padding: 5px 2px;">
+					<z-icon class="message-square" size="1.5"></z-icon>
+				</div>
+				<div slot="right-slot" style="display: grid; place-items: end; padding: 0 2px;">
+					<z-button class="primary" style="padding: 3px 7px; margin: 0 0 0 2px;" onclick="alert(opinionsTextarea.value)">
+						<z-icon class="check" style="fill: lime; stroke: lime; stroke-width: 2" size="1.7"></z-icon>
+					</z-button>
+				</div>
+			</z-textarea>
+		</div>
+		
 
-		<script type="module" src="./zionComponents.js"></script>
+		<script type="module">
+			import { zInput } from './zionComponents.js';
+		</script>
 	</body>
 
 </html>
