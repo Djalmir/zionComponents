@@ -17,8 +17,8 @@
 	--light-bg4: #fefefe;
 	--light-bg4-transparent: #fefefe99;
 
-	--dark-font1: #1a1a1a;
-	--dark-font2: #333333;
+	--dark-font1: #3a3a3a;
+	--dark-font2: #555555;
 
 	--light-font1: #dddddd;
 	--light-font2: #fdfdfd;
@@ -92,7 +92,7 @@
 body {
 	background: var(--dark-bg2);
 	color: var(--light-font1);
-	padding: 0 0 52px;
+	padding: 57px 0 52px;
 	font-size: 16px;
-	transition: background .4s;
+	transition: background .2s, color .2s;
 }

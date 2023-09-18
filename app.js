@@ -1,9 +1,9 @@
 import Home from './views/Home.js'
 import About from './views/About.js'
 
-const routes = {
+app.routes = {
 	'#/': Home,
 	'#/about': About
 }
 
-mountApp(routes)
+mountApp(app.routes)

@@ -27,7 +27,7 @@ section {
 	box-shadow: var(--box-shadow);
 }
 
-.lightTheme .card {
+:host(.lightTheme) .card {
 	background: var(--light-bg3);
 }
 
@@ -48,7 +48,7 @@ b.title {
 
 .input {
 	flex: 1;
-	transition: .4s;
+	transition: .2s;
 }
 
 .checkboxesGrid {
@@ -90,7 +90,7 @@ b.title {
 	width: 100%;
 	max-width: 463px;
 	min-width: 120px;
-	transition: .4s;
+	transition: .2s;
 }
 
 #clearSearchButton {
@@ -129,14 +129,14 @@ b.title {
 	text-align: center;
 	border-radius: .4rem;
 	cursor: pointer;
-	transition: .4s;
+	transition: .2s;
 	flex: 1;
 	min-width: 100px;
 	max-width: 160px;
 	box-shadow: var(--box-shadow);
 }
 
-.lightTheme .svgCard {
+:host(.lightTheme) .svgCard {
 	background: var(--secondary-light);
 	color: var(--dark-font2); 
 	fill: var(--dark-font2);
@@ -149,7 +149,7 @@ b.title {
 	transition: .1s;
 }
 
-.lightTheme .svgCard:hover {
+:host(.lightTheme) .svgCard:hover {
 	background: var(--secondary);
 	color: var(--light-font1); 
 	fill: var(--light-font1);
@@ -157,9 +157,7 @@ b.title {
 `
 
 const template = document.createElement('template')
-template.innerHTML = /*html*/`
-<div class="${ app.darkTheme ? 'darkTheme' : 'lightTheme' }" style="margin-top: 75px;">
-	
+template.innerHTML = /*html*/`	
 	<label style="cursor: pointer; margin-left: 5vw">
 		<z-checkbox z-model="darkTheme"></z-checkbox>
 		Tema escuro
@@ -233,8 +231,6 @@ template.innerHTML = /*html*/`
 			</div>
 		</div>
 	</section>
-
-</div>
 `
 
 import '../zionComponents.js'
@@ -258,8 +254,8 @@ export default class Home extends HTMLElement {
 			if (this.autoUpdatingTheme)
 				this.autoUpdatingTheme = false
 			else {
-				app.darkTheme = this.darkTheme
-				Array.from(this.shadowRoot.querySelectorAll('.input')).map((input) => {
+			app.darkTheme = this.darkTheme
+				Array.from(this.shadowRoot.querySelectorAll('.input')).forEach((input) => {
 					input.classList.replace(`${ app.darkTheme ? 'light-bg4' : 'secondary' }`, `${ app.darkTheme ? 'secondary' : 'light-bg4' }`)
 				})
 				this.shadowRoot.querySelector('#iconSearchInput').classList.replace(`${ app.darkTheme ? 'secondary-light' : 'secondary' }`, `${ app.darkTheme ? 'secondary' : 'secondary-light' }`)
@@ -295,7 +291,7 @@ export default class Home extends HTMLElement {
 			.then(res => res.text())
 			.then((res) => {
 				let arr = []
-				res.match(/(id=".+?")/g).map((idStr) => {
+				res.match(/(id=".+?")/g).forEach((idStr) => {
 					arr.push(idStr.replace(`id="`, '').replace(`"`, ''))
 				})
 				this.svgLib = arr
@@ -324,15 +320,19 @@ export default class Home extends HTMLElement {
 		// 	background-color: white;
 		// `
 		// testBt.innerText = 'Teste'
+
+		setTimeout(() => {
+			this.classList.add(app.darkTheme ? 'darkTheme' : 'lightTheme')
+		}, 0)
 	}
 
 	connectedCallback() {
 		setTimeout(() => {
-			Array.from(this.shadowRoot.querySelectorAll('.card')).map((card) => {
-				card.style.transition = 'background .4s, color .4s'
+			Array.from(this.shadowRoot.querySelectorAll('.card')).forEach((card) => {
+				card.style.transition = 'background .2s, color .2s'
 			})
 		}, 0)
-		Array.from(this.shadowRoot.querySelectorAll('.input')).map((input) => {
+		Array.from(this.shadowRoot.querySelectorAll('.input')).forEach((input) => {
 			input.classList.replace(`${ app.darkTheme ? 'light-bg4' : 'secondary' }`, `${ app.darkTheme ? 'secondary' : 'light-bg4' }`)
 		})
 		this.shadowRoot.querySelector('#iconSearchInput').classList.replace(`${ app.darkTheme ? 'secondary-light' : 'secondary' }`, `${ app.darkTheme ? 'secondary' : 'secondary-light' }`)

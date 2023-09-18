@@ -191,7 +191,7 @@ export default class zTextarea extends HTMLElement {
 					this.themeStyle = document.createElement('style')
 					this.themeStyle.textContent = /*css*/`
 						.${ className } {
-							transition: .4s, width 0s, max-width 0s, height 0s, max-height 0s, box-shadow .2s;
+							transition: .2s, width 0s, max-width 0s, height 0s, max-height 0s, box-shadow .2s;
 							background: var(--${ className });
 							color: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });
 							fill: var(--${ className.includes('light') ? 'dark-font2' : 'light-font2' });

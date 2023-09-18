@@ -4,12 +4,21 @@ style.textContent = /*css*/`
 		position: fixed;
 		top: 0;
 		background: var(--dark-bg2-transparent);
-		transition: .4s;
+		transition: .2s;
 		width: 100%;
 		height: 40px;
 		backdrop-filter: blur(7px);
 		box-shadow: 0 1px 2px var(--dark-bg1);
 		z-index: 2;
+		display: flex;
+		align-items: center;
+		gap: 7px;
+	}
+
+	#defaultTitle {
+		font-size: 18px;
+		white-space: nowrap;
+		padding: 3px 17px;
 	}
 
 	:host(.lightTheme) header {
@@ -27,7 +36,7 @@ style.textContent = /*css*/`
 		justify-content: flex-end;
 		padding: 0 4px;
 		box-sizing: border-box;
-		transition: .4s;
+		transition: width .4s ease-in-out, background .2s;
 		box-shadow: 0 0 2px var(--dark-bg1);
 	}
 
@@ -125,7 +134,16 @@ template.innerHTML = /*html*/`
 	<div id="shadow"></div>
 
 	<nav id="menu">
-		<slot></slot>
+		<slot name="menu">
+			<z-menuitem icon="home" path="#/">Home</z-menuitem>
+			<z-menuitem icon="info" path="{
+				name: 'About', 
+				params: { 
+					workWithParams: true,
+					rateIt: 10
+				}
+			}">About</z-menuitem>
+		</slot>
 	</nav>
 
 	<header>
@@ -150,6 +168,9 @@ template.innerHTML = /*html*/`
 				</svg >
 			</button>
 		</div>
+		<slot name="header">
+			<b id="defaultTitle"></b>
+		</slot>
 	</header>
 `
 export default class zMainMenu extends HTMLElement {
@@ -168,6 +189,7 @@ export default class zMainMenu extends HTMLElement {
 			if (this.showingMenu) {
 				shadowDiv.style.transform = 'scale(1)'
 				shadowDiv.style.opacity = '1'
+				shadowDiv.onclick = this.showMenu
 				menuBtContainer.style.width = '300px'
 				menu.style.left = '0'
 
@@ -182,6 +204,7 @@ export default class zMainMenu extends HTMLElement {
 			else {
 				shadowDiv.style.opacity = '0'
 				shadowDiv.addEventListener('transitionend', this.removeShadow)
+				shadowDiv.onclick = null
 				menuBtContainer.style.width = '40px'
 				menu.style.left = '-310px'
 
@@ -198,11 +221,20 @@ export default class zMainMenu extends HTMLElement {
 			shadowDiv.removeEventListener('transitionend', this.removeShadow)
 			shadowDiv.style.transform = 'scale(0)'
 		}
+
+		setTimeout(() => {
+			this.classList.add(app.darkTheme ? 'darkTheme' : 'lightTheme')
+		}, 0)
 	}
 
 	connectedCallback() {
 		this.shadowRoot.querySelector('#menuBt').onclick = this.showMenu
 		this.shadowRoot.querySelector('#shadow').onclick = this.showMenu
+		this.shadowRoot.querySelector('#defaultTitle').textContent = document.title
+		window.addEventListener('hashchange', () => {
+			if (this.showingMenu)
+				this.showMenu()
+		})
 	}
 }
 

@@ -1,4 +1,5 @@
 export { default as zMainMenu } from './components/uiElements/zMainMenu.js'
+export { default as zMenuItem } from './components/componentElements/zMainMenu/zMenuItem.js'
 export { default as zIcon } from './components/uiElements/zIcon.js'
 
 export { default as zButton } from './components/formElements/zButton.js'

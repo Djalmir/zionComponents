@@ -32,7 +32,6 @@ function mountApp(routes) {
 			viewContainer.removeChild(viewContainer.firstChild)
 		viewContainer.appendChild(app.view)
 
-		mainMenu.classList.add(app._darkTheme ? 'darkTheme' : 'lightTheme')
 		updateAppTheme()
 
 		ZION(app.view)
@@ -55,10 +54,7 @@ function mountApp(routes) {
 
 function updateAppTheme() {
 	if (app._darkTheme) {
-		Array.from(document.querySelectorAll('[class="lightTheme"]')).map((element) => {
-			element.classList.replace('lightTheme', 'darkTheme')
-		})
-		Array.from(app.view?.shadowRoot?.querySelectorAll('[class="lightTheme"]')).map((element) => {
+		deepSelectorAll("[class='lightTheme']").map((element) => {
 			element.classList.replace('lightTheme', 'darkTheme')
 		})
 		document.body.style = `
@@ -67,10 +63,7 @@ function updateAppTheme() {
 		`
 	}
 	else {
-		Array.from(document.querySelectorAll('[class="darkTheme"]')).map((element) => {
-			element.classList.replace('darkTheme', 'lightTheme')
-		})
-		Array.from(app.view?.shadowRoot?.querySelectorAll('[class="darkTheme"]')).map((element) => {
+		deepSelectorAll("[class='darkTheme']").map((element) => {
 			element.classList.replace('darkTheme', 'lightTheme')
 		})
 		document.body.style = `
@@ -94,7 +87,9 @@ function updateScrollbarTheme() {
 		document.body.style.setProperty('--scroll-thumb-hover-bg', '#454545')
 		document.body.style.setProperty('--scroll-thumb-active-bg', '#303030')
 		if (currentTrackBg > 191919)
-			requestAnimationFrame(updateScrollbarTheme)
+			setTimeout(() => {
+				updateScrollbarTheme()
+			}, 0)		
 	}
 	else {
 		if (currentTrackBg < 999999)
@@ -106,7 +101,9 @@ function updateScrollbarTheme() {
 		document.body.style.setProperty('--scroll-thumb-hover-bg', '#707070')
 		document.body.style.setProperty('--scroll-thumb-active-bg', '#505050')
 		if (currentTrackBg < 999999)
-			requestAnimationFrame(updateScrollbarTheme)
+			setTimeout(() => {
+				updateScrollbarTheme()
+			}, 0)		
 	}
 }
 
@@ -141,4 +138,14 @@ function setMask(e, type) {
 
 function dispatchEvent(eventName, detail) {
 	document.dispatchEvent(new CustomEvent(eventName, { detail: detail }))
+}
+
+function deepSelectorAll(selector, root = document) {
+	const elements = root.querySelectorAll(selector)
+	const shadowElements = Array.from(root.querySelectorAll('*'))
+		.filter(element => element.shadowRoot)
+		.map(element => deepSelectorAll(selector, element.shadowRoot))
+		.flat()
+
+	return [...elements, ...shadowElements]
 }
