@@ -44,13 +44,6 @@ style.textContent = /*css*/`
 		background: var(--light-bg1-transparent);
 		box-shadow: 0 0 2px var(--dark-bg4-transparent);
 	}
-
-	#logo {
-		-webkit-user-drag: none;
-		display: block;
-		margin: 7px auto 0 0;
-		width: 128px;
-	}
 	
 	#menuBt {
 		position: relative;
@@ -113,11 +106,31 @@ style.textContent = /*css*/`
 		display: flex;
 		flex-direction: column;
 		backdrop-filter: blur(7px);
+		overflow: hidden;
 	}
 
 	:host(.lightTheme) #menu {
 		background: var(--light-bg2-transparent);
 		box-shadow: 1px 1px 2px var(--dark-bg4-transparent);
+	}
+
+	#logoWrapper {
+		margin: auto 0 -5px 0;
+		background: var(--dark-bg1-transparent);
+		padding: 7px 17px;
+		box-shadow: 0 -1px 2px var(--dark-bg1);
+	}
+
+	:host(.lightTheme) #logoWrapper {
+		background: var(--light-bg1-transparent);
+		box-shadow: 0 -1px 2px var(--dark-bg4-transparent);
+	}
+
+	#logo {
+		-webkit-user-drag: none;
+		display: block;
+		margin: auto;
+		width: 50%;
 	}
 
 	#shadow {
@@ -153,12 +166,14 @@ template.innerHTML = /*html*/`
 					rateIt: 10
 				}
 			}">About</z-menuitem>
+			<div id="logoWrapper">
+				<img src="/assets/logo.png" id="logo"/>
+			</div>
 		</slot>
 	</nav>
 
 	<header>
 		<div id="menuBtContainer">
-			<img src="/assets/logo.png" id="logo"/>
 			<button id="menuBt">
 				<svg id="menuSVG" viewBox="0 0 32 27">
 					<g style="stroke-width:6; stroke-linecap:round;">
