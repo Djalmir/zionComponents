@@ -44,11 +44,20 @@ style.textContent = /*css*/`
 		background: var(--light-bg1-transparent);
 		box-shadow: 0 0 2px var(--dark-bg4-transparent);
 	}
+
+	#logo {
+		-webkit-user-drag: none;
+		display: block;
+		margin: 7px auto 0 0;
+		width: 128px;
+	}
 	
 	#menuBt {
 		position: relative;
 		width: 32px;
+		min-width: 32px;
 		height: 32px;
+		right: 0;
 		border-radius: 0.2rem;
 		border: none;
 		outline: none;
@@ -58,6 +67,7 @@ style.textContent = /*css*/`
 		/*transition: .1s;*/
 		display: grid;
 		place-items: center center;
+		margin-left: 17px;
 	}
 	
 	#menuSVG {
@@ -148,6 +158,7 @@ template.innerHTML = /*html*/`
 
 	<header>
 		<div id="menuBtContainer">
+			<img src="/assets/logo.png" id="logo"/>
 			<button id="menuBt">
 				<svg id="menuSVG" viewBox="0 0 32 27">
 					<g style="stroke-width:6; stroke-linecap:round;">
