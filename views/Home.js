@@ -19,7 +19,7 @@ section {
 }
 
 .card {
-	background: var(--dark-bg3);
+	background: linear-gradient(to bottom right, var(--dark-bg3), var(--dark-bg2));
 	padding: 25px 17px 17px;
 	border-radius: .5rem;
 	width: 480px;
@@ -28,7 +28,7 @@ section {
 }
 
 :host(.lightTheme) .card {
-	background: var(--light-bg3);
+	background: linear-gradient(to bottom right, var(--light-bg2), var(--light-bg1));
 }
 
 b.title {
@@ -48,7 +48,7 @@ b.title {
 
 .input {
 	flex: 1;
-	transition: .2s;
+	/*transition: .2s;*/
 }
 
 .checkboxesGrid {
@@ -90,7 +90,7 @@ b.title {
 	width: 100%;
 	max-width: 463px;
 	min-width: 120px;
-	transition: .2s;
+	/*transition: .2s;*/
 }
 
 #clearSearchButton {
@@ -120,39 +120,43 @@ b.title {
 	display: grid;
 	grid-template-rows: 1fr;
 	place-items: center;
-	padding: 12px;
+	padding: 7px;
 	gap: 7px;
-	background: var(--secondary);
+	background: var(--dark-bg2);
 	color: var(--light-font1); 
 	fill: var(--light-font1);
 	font-size: .9rem;
 	text-align: center;
 	border-radius: .4rem;
 	cursor: pointer;
-	transition: .2s;
+	/*transition: .2s;*/
 	flex: 1;
 	min-width: 100px;
 	max-width: 160px;
 	box-shadow: var(--box-shadow);
+	user-select: none;
 }
 
 :host(.lightTheme) .svgCard {
-	background: var(--secondary-light);
+	background: var(--light-bg1);
 	color: var(--dark-font2); 
 	fill: var(--dark-font2);
 }
 
 .svgCard:hover {
-	background: var(--secondary-light);
-	color: var(--dark-font1); 
-	fill: var(--dark-font1);
+	background: var(--primary);	
 	transition: .1s;
 }
 
 :host(.lightTheme) .svgCard:hover {
-	background: var(--secondary);
+	background: var(--primary);
 	color: var(--light-font1); 
 	fill: var(--light-font1);
+}
+
+.svgCard:active {
+	filter: brightness(.9);
+	box-shadow: inset var(--box-shadow);
 }
 `
 
@@ -176,17 +180,17 @@ template.innerHTML = /*html*/`
 			<div class="card">
 				<b class="title">Inputs</b>
 				<div class="flexDiv">
-					<z-input placeholder="Nome" class="secondary input" z-model="name"></z-input>
-					<z-input type="tel" placeholder="Whatsapp" z-oninput="setPhoneMask" class="secondary input">
+					<z-input placeholder="Nome" class="dark-bg2 input" z-model="name"></z-input>
+					<z-input type="tel" placeholder="Whatsapp" z-oninput="setPhoneMask" class="dark-bg2 input">
 						<!--<z-icon class="message-circle" size="1.5" slot="left-slot" style="transform: translateY(2px); padding: 0 3px; stroke: transparent"></z-icon>-->
 					</z-input>
 				</div>
 				<div class="flexDiv">
-					<z-input placeholder="Endereço" style="flex: 2;" class="secondary input" z-onchange="test"></z-input>
-					<z-number-input type="number" placeholder="Número" class="secondary input" min="0" z-onchange="test"></z-number-input>
+					<z-input placeholder="Endereço" style="flex: 2;" class="dark-bg2 input" z-onchange="test"></z-input>
+					<z-number-input type="number" placeholder="Número" class="dark-bg2 input" min="0" z-onchange="test"></z-number-input>
 				</div>
 				<div class="flexDiv">
-					<z-textarea class="secondary input" placeholder="Observações" rows="5" style="max-width: 446px;" z-model="obs"></z-textarea>
+					<z-textarea class="dark-bg2 input" placeholder="Observações" rows="5" style="max-width: 446px;" z-model="obs"></z-textarea>
 				</div>
 			</div>
 			<div class="card">
@@ -211,10 +215,10 @@ template.innerHTML = /*html*/`
 	</section>
 
 	<section>
-		<div id="svgLibCard" class="card">
+		<div id="svgLibCard">
 			<b class="title">Icones</b><br/>
 			<div id="searchInputWrapper">
-				<z-input placeholder="Pesquisa" z-model="iconSearch" class="${ app.darkTheme ? 'secondary-light' : 'secondary' }" id="iconSearchInput">
+				<z-input placeholder="Pesquisa" z-model="iconSearch" class="${ app.darkTheme ? 'light-bg2' : 'dark-bg2' }" id="iconSearchInput">
 					<div slot="left-slot" style="display: grid; place-items:center; padding: 3px 5px;">
 						<z-icon class="search" size="1.5"></z-icon>
 					</div>
@@ -224,16 +228,19 @@ template.innerHTML = /*html*/`
 				</z-input>
 			</div>
 			<div id="svgLib">
-				<div z-for="svgId in filteredSvgLib" class="svgCard">
-					<z-icon class="{{svgId}}" size="2.5"></z-icon>
-					<span>{{svgId}}</span>
-				</div>
+				<fragment z-for="svgId in filteredSvgLib">
+					<div class="svgCard" id="{{svgId}}" tabindex="0" z-onclick="copyIcon">
+						<z-icon class="{{svgId}}" size="2.5" style="pointer-events: none;"></z-icon>
+						<span style="pointer-events: none;">{{svgId}}</span>
+					</div>
+				</fragment>
 			</div>
 		</div>
 	</section>
 `
 
 import '../zionComponents.js'
+import { zDialog } from '../zionComponents.js'
 
 export default class Home extends HTMLElement {
 	constructor() {
@@ -254,11 +261,8 @@ export default class Home extends HTMLElement {
 			if (this.autoUpdatingTheme)
 				this.autoUpdatingTheme = false
 			else {
-			app.darkTheme = this.darkTheme
-				Array.from(this.shadowRoot.querySelectorAll('.input')).forEach((input) => {
-					input.classList.replace(`${ app.darkTheme ? 'light-bg4' : 'secondary' }`, `${ app.darkTheme ? 'secondary' : 'light-bg4' }`)
-				})
-				this.shadowRoot.querySelector('#iconSearchInput').classList.replace(`${ app.darkTheme ? 'secondary-light' : 'secondary' }`, `${ app.darkTheme ? 'secondary' : 'secondary-light' }`)
+				app.darkTheme = this.darkTheme
+				this.updateInputsTheme()
 			}
 		}
 
@@ -287,7 +291,7 @@ export default class Home extends HTMLElement {
 
 		this.svgLib = ['']
 		this.filteredSvgLib = ['']
-		fetch(`${ window.location.origin.includes('github.io') ? `/zionComponents` : '' }/assets/svgLib.svg`)
+		fetch(`/assets/svgLib.svg`)
 			.then(res => res.text())
 			.then((res) => {
 				let arr = []
@@ -321,21 +325,42 @@ export default class Home extends HTMLElement {
 		// `
 		// testBt.innerText = 'Teste'
 
+		this.copyIcon = (e) => {
+			// navigator.clipboard.writeText(`
+			// 	<z-icon class="${ e.target.id }" size="1"></z-icon>
+			// `)
+			// 	.then(() => {
+			// 		document.querySelector('#zDialog').showMessage('<b style="font-size: 26px;">Sucesso</b>', "<b style='margin-bottom: 17px; display: block;'>Componente Copiado</b>")
+			// 	})
+			let input = document.body.appendChild(document.createElement('input'))
+			console.log(e.target.id)
+			input.value = `<z-icon class="${ e.target.id }" size="1"></z-icon>`
+			input.select()
+			input.setSelectionRange(0, 99999)
+			document.execCommand('copy')
+			document.body.removeChild(input)
+			document.querySelector('#zDialog').showMessage('<b style="font-size: 26px;">Sucesso</b>', "<b style='margin-bottom: 17px; display: block;'>Componente Copiado</b>")
+		}
+
+		this.updateInputsTheme = () => {
+			Array.from(this.shadowRoot.querySelectorAll('.input')).forEach((input) => {
+				input.classList.replace(`${ app.darkTheme ? 'light-bg3' : 'dark-bg2' }`, `${ app.darkTheme ? 'dark-bg2' : 'light-bg3' }`)
+			})
+			this.shadowRoot.querySelector('#iconSearchInput').classList.replace(`${ app.darkTheme ? 'light-bg1' : 'dark-bg2' }`, `${ app.darkTheme ? 'dark-bg2' : 'light-bg1' }`)
+		}
+
 		setTimeout(() => {
 			this.classList.add(app.darkTheme ? 'darkTheme' : 'lightTheme')
 		}, 0)
 	}
 
 	connectedCallback() {
-		setTimeout(() => {
-			Array.from(this.shadowRoot.querySelectorAll('.card')).forEach((card) => {
-				card.style.transition = 'background .2s, color .2s'
-			})
-		}, 0)
-		Array.from(this.shadowRoot.querySelectorAll('.input')).forEach((input) => {
-			input.classList.replace(`${ app.darkTheme ? 'light-bg4' : 'secondary' }`, `${ app.darkTheme ? 'secondary' : 'light-bg4' }`)
-		})
-		this.shadowRoot.querySelector('#iconSearchInput').classList.replace(`${ app.darkTheme ? 'secondary-light' : 'secondary' }`, `${ app.darkTheme ? 'secondary' : 'secondary-light' }`)
+		// setTimeout(() => {
+		// 	Array.from(this.shadowRoot.querySelectorAll('.card')).forEach((card) => {
+		// 		card.style.transition = 'background .2s, color .2s'
+		// 	})
+		// }, 0)
+		this.updateInputsTheme()
 	}
 }
 

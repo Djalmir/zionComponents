@@ -3,8 +3,8 @@
 	--dark-bg1-transparent: #1b1b1b99;
 	--dark-bg2: #242424;
 	--dark-bg2-transparent: #24242499;
-	--dark-bg3: #3f3f3f;
-	--dark-bg3-transparent: #3f3f3f99;
+	--dark-bg3: #303030;
+	--dark-bg3-transparent: #30303099;
 	--dark-bg4: #6b6b6b;
 	--dark-bg4-transparent: #6b6b6b99;
 
@@ -37,7 +37,7 @@
 
 	--box-shadow: 1px 1px 2px #000000d0;
 
-	--scroll-track-bg: #191919;
+	--scroll-track-bg: transparent;
 	--scroll-thumb-bg: #393939;
 	--scroll-thumb-hover-bg: #454545;
 	--scroll-thumb-active-bg: #303030;
@@ -90,9 +90,8 @@
 }
 
 body {
-	background: var(--dark-bg2);
 	color: var(--light-font1);
 	padding: 57px 0 52px;
 	font-size: 16px;
-	transition: background .2s, color .2s;
+	/* transition: background .2s, color .2s; */
 }

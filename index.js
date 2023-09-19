@@ -57,8 +57,13 @@ function updateAppTheme() {
 		deepSelectorAll("[class='lightTheme']").map((element) => {
 			element.classList.replace('lightTheme', 'darkTheme')
 		})
+
+		document.querySelector('html').style = `
+			background: var(--dark-bg1);
+		`
 		document.body.style = `
-			background: var(--dark-bg2);
+			background: radial-gradient(var(--dark-bg3), var(--dark-bg1));
+			background-attachment: fixed;
 			color: var(--light-font1);
 		`
 	}
@@ -66,8 +71,13 @@ function updateAppTheme() {
 		deepSelectorAll("[class='darkTheme']").map((element) => {
 			element.classList.replace('darkTheme', 'lightTheme')
 		})
+
+		document.querySelector('html').style = `
+			background: var(--light-bg1);
+		`
 		document.body.style = `
-			background: var(--light-bg2);
+			background: radial-gradient(var(--light-bg2), var(--light-bg1));
+			background-attachment: fixed;
 			color: var(--dark-font1);
 		`
 	}
@@ -78,32 +88,40 @@ let currentTrackBg = 191919
 let currentThumbBg = 404040
 function updateScrollbarTheme() {
 	if (app._darkTheme) {
-		if (currentTrackBg > 191919)
-			currentTrackBg -= 101010
-		if (currentThumbBg > 404040)
-			currentThumbBg -= 101010
-		document.body.style.setProperty('--scroll-track-bg', `#${ currentTrackBg }`)
-		document.body.style.setProperty('--scroll-thumb-bg', `#${ currentThumbBg }`)
+		// if (currentTrackBg > 191919)
+		// 	currentTrackBg -= 101010
+		// if (currentThumbBg > 404040)
+		// 	currentThumbBg -= 101010
+		// document.body.style.setProperty('--scroll-track-bg', `#${ currentTrackBg }`)
+		// document.body.style.setProperty('--scroll-thumb-bg', `#${ currentThumbBg }`)
+		// document.body.style.setProperty('--scroll-thumb-hover-bg', '#454545')
+		// document.body.style.setProperty('--scroll-thumb-active-bg', '#303030')
+		// if (currentTrackBg > 191919)
+		// 	setTimeout(() => {
+		// 		updateScrollbarTheme()
+		// 	}, 0)		
+		document.body.style.setProperty('--scroll-track-bg', `transparent`)
+		document.body.style.setProperty('--scroll-thumb-bg', `#404040`)
 		document.body.style.setProperty('--scroll-thumb-hover-bg', '#454545')
 		document.body.style.setProperty('--scroll-thumb-active-bg', '#303030')
-		if (currentTrackBg > 191919)
-			setTimeout(() => {
-				updateScrollbarTheme()
-			}, 0)		
 	}
 	else {
-		if (currentTrackBg < 999999)
-			currentTrackBg += 101010
-		if (currentThumbBg < 606060)
-			currentThumbBg += 101010
-		document.body.style.setProperty('--scroll-track-bg', `#${ currentTrackBg }`)
-		document.body.style.setProperty('--scroll-thumb-bg', `#${ currentThumbBg }`)
+		// if (currentTrackBg < 999999)
+		// 	currentTrackBg += 101010
+		// if (currentThumbBg < 606060)
+		// 	currentThumbBg += 101010
+		// document.body.style.setProperty('--scroll-track-bg', `#${ currentTrackBg }`)
+		// document.body.style.setProperty('--scroll-thumb-bg', `#${ currentThumbBg }`)
+		// document.body.style.setProperty('--scroll-thumb-hover-bg', '#707070')
+		// document.body.style.setProperty('--scroll-thumb-active-bg', '#505050')
+		// if (currentTrackBg < 999999)
+		// 	setTimeout(() => {
+		// 		updateScrollbarTheme()
+		// 	}, 0)		
+		document.body.style.setProperty('--scroll-track-bg', `transparent`)
+		document.body.style.setProperty('--scroll-thumb-bg', `#606060`)
 		document.body.style.setProperty('--scroll-thumb-hover-bg', '#707070')
 		document.body.style.setProperty('--scroll-thumb-active-bg', '#505050')
-		if (currentTrackBg < 999999)
-			setTimeout(() => {
-				updateScrollbarTheme()
-			}, 0)		
 	}
 }
 

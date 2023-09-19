@@ -4,7 +4,7 @@ style.textContent = /*css*/`
 		position: fixed;
 		top: 0;
 		background: var(--dark-bg2-transparent);
-		transition: .2s;
+		/*transition: .2s;*/
 		width: 100%;
 		height: 40px;
 		backdrop-filter: blur(7px);
@@ -36,7 +36,7 @@ style.textContent = /*css*/`
 		justify-content: flex-end;
 		padding: 0 4px;
 		box-sizing: border-box;
-		transition: width .4s ease-in-out, background .2s;
+		transition: width .4s ease-in-out/*, background .2s*/;
 		box-shadow: 0 0 2px var(--dark-bg1);
 	}
 
@@ -55,7 +55,7 @@ style.textContent = /*css*/`
 		padding: 6px;
 		background: transparent;
 		cursor: pointer;
-		transition: .1s;
+		/*transition: .1s;*/
 		display: grid;
 		place-items: center center;
 	}
@@ -64,7 +64,7 @@ style.textContent = /*css*/`
 		width: 100%;
 		height: 100%;
 		transform-origin: center;
-		transition: transform 0.8s, stroke .2s, scale .2s;
+		transition: transform 0.8s, scale .2s;
 		stroke: var(--light-bg1);
 	}
 
@@ -94,10 +94,10 @@ style.textContent = /*css*/`
 		left: -310px;
 		width: 100%;
 		max-width: 300px;
-		height: calc(100% - 40px);
+		height: calc(100vh - 40px);
 		padding: 43px 0 3px;
 		box-sizing: border-box;
-		transition: .2s;
+		transition: left .2s;
 		user-select: none;
 		box-shadow: 1px 1px 2px var(--dark-bg1);
 		display: flex;
@@ -121,7 +121,7 @@ style.textContent = /*css*/`
 		opacity: 0;
 		transition: opacity .2s;
 		display: block;
-		backdrop-filter: blur(2px);
+		/*backdrop-filter: blur(2px);*/
 	}
 
 	:host(.lightTheme) #shadow {

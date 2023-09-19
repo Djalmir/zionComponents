@@ -1,6 +1,7 @@
 export { default as zMainMenu } from './components/uiElements/zMainMenu.js'
 export { default as zMenuItem } from './components/componentElements/zMainMenu/zMenuItem.js'
 export { default as zIcon } from './components/uiElements/zIcon.js'
+export { default as zDialog } from './components/uiElements/zDialog.js'
 
 export { default as zButton } from './components/formElements/zButton.js'
 export { default as zCheckbox } from './components/formElements/zCheckbox.js'

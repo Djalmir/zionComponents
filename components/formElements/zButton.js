@@ -113,6 +113,11 @@ export default class zButton extends HTMLElement {
 		}
 		// this.updateTheme()
 
+		this.setAttribute('tabindex', '0')
+		this.addEventListener('focus', () => {
+			this.shadowRoot.querySelector('button').focus()
+		})
+
 	}
 
 	get classList() {
@@ -142,10 +147,11 @@ export default class zButton extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return ['classList', 'class', 'style']
+		return ['classList', 'class', 'style', 'type', 'onblur', 'onclick', 'oncontextmenu', 'ondblclick', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseup', 'onsubmit', 'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart']
 	}
 
 	attributeChangedCallback(attribute, oldValue, newValue) {
+		let element
 		switch (attribute) {
 			case 'classList':
 				this.shadowRoot.querySelector('button').setAttribute('classList', newValue)
@@ -155,9 +161,15 @@ export default class zButton extends HTMLElement {
 				this.shadowRoot.querySelector('button').setAttribute('class', newValue)
 				this.updateTheme()
 				break
-			case 'style':
-				this.shadowRoot.querySelector('button').setAttribute('style', newValue)
+			default:
+				element = this.shadowRoot.querySelector('button')
 				break
+		}
+		if (element && attribute.startsWith('on')) {
+			element.addEventListener(attribute.slice(2), eval(newValue))
+		}
+		else if (element && element.hasAttribute(attribute)) {
+			element.setAttribute(attribute, newValue)
 		}
 	}
 
