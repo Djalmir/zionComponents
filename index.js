@@ -32,8 +32,6 @@ function mountApp(routes) {
 			viewContainer.removeChild(viewContainer.firstChild)
 		viewContainer.appendChild(app.view)
 
-		updateAppTheme()
-
 		ZION(app.view)
 	}
 
@@ -50,6 +48,7 @@ function mountApp(routes) {
 			onRouteChanged()
 			window.addEventListener('hashchange', onRouteChanged)
 		})
+	updateAppTheme()
 }
 
 function updateAppTheme() {

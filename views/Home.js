@@ -289,18 +289,23 @@ export default class Home extends HTMLElement {
 
 		this.setPhoneMask = (e) => setMask(e, 'cellphone')
 
-		this.svgLib = ['']
-		this.filteredSvgLib = ['']
-		fetch(`/assets/svgLib.svg`)
-			.then(res => res.text())
-			.then((res) => {
-				let arr = []
-				res.match(/(id=".+?")/g).forEach((idStr) => {
-					arr.push(idStr.replace(`id="`, '').replace(`"`, ''))
+
+		this.svgLib = sessionStorage.getItem('svgLib') ? JSON.parse(sessionStorage.getItem('svgLib')) : ['Carregando...']
+		this.filteredSvgLib = this.svgLib
+
+		if (this.svgLib.length == 1) {
+			fetch(`/assets/svgLib.svg`)
+				.then(res => res.text())
+				.then((res) => {
+					let arr = []
+					res.match(/(id=".+?")/g).forEach((idStr) => {
+						arr.push(idStr.replace(`id="`, '').replace(`"`, ''))
+					})
+					this.svgLib = arr
+					this.filteredSvgLib = arr
+					sessionStorage.setItem('svgLib', JSON.stringify(arr))
 				})
-				this.svgLib = arr
-				this.filteredSvgLib = arr
-			})
+		}
 
 		this.obs = ''
 		this.watch.obs = () => {
@@ -333,7 +338,6 @@ export default class Home extends HTMLElement {
 			// 		document.querySelector('#zDialog').showMessage('<b style="font-size: 26px;">Sucesso</b>', "<b style='margin-bottom: 17px; display: block;'>Componente Copiado</b>")
 			// 	})
 			let input = document.body.appendChild(document.createElement('input'))
-			console.log(e.target.id)
 			input.value = `<z-icon class="${ e.target.id }" size="1"></z-icon>`
 			input.select()
 			input.setSelectionRange(0, 99999)
@@ -349,17 +353,10 @@ export default class Home extends HTMLElement {
 			this.shadowRoot.querySelector('#iconSearchInput').classList.replace(`${ app.darkTheme ? 'light-bg1' : 'dark-bg2' }`, `${ app.darkTheme ? 'dark-bg2' : 'light-bg1' }`)
 		}
 
-		setTimeout(() => {
-			this.classList.add(app.darkTheme ? 'darkTheme' : 'lightTheme')
-		}, 0)
+		this.classList.add(app.darkTheme ? 'darkTheme' : 'lightTheme')
 	}
 
 	connectedCallback() {
-		// setTimeout(() => {
-		// 	Array.from(this.shadowRoot.querySelectorAll('.card')).forEach((card) => {
-		// 		card.style.transition = 'background .2s, color .2s'
-		// 	})
-		// }, 0)
 		this.updateInputsTheme()
 	}
 }

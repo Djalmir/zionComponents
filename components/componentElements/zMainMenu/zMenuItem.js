@@ -92,10 +92,8 @@ export default class zMenuItem extends HTMLElement {
 		if (this.attributes.path) {
 			this.onclick = () => {
 				try {
+					// deepSelectorAll('#mainMenu')[0].showMenu()
 					location.hash = this.path
-					// setTimeout(() => {
-					// 	deepSelectorAll('#mainMenu')[0].showMenu()
-					// }, 0)
 				}
 				catch {
 					console.error(`Path '${ path }' not found.`)
@@ -119,9 +117,7 @@ export default class zMenuItem extends HTMLElement {
 
 		window.addEventListener('hashchange', this.updateActiveClass)
 		document.addEventListener('themeUpdated', this.updateActiveClass)
-		setTimeout(() => {
-			this.classList.add(app.darkTheme ? 'darkTheme' : 'lightTheme')
-		}, 0)
+		this.classList.add(app.darkTheme ? 'darkTheme' : 'lightTheme')
 	}
 
 	connectedCallback() {

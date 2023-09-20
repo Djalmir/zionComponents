@@ -67,7 +67,7 @@ style.textContent = /*css*/`
 		width: 100%;
 		height: 100%;
 		transform-origin: center;
-		transition: transform 0.8s, scale .2s;
+		transition: transform 0.6s, scale .2s;
 		stroke: var(--light-bg1);
 	}
 
@@ -152,7 +152,7 @@ template.innerHTML = /*html*/`
 	</nav>
 
 	<header>
-		<div id="menuBtContainer" style="fill: red; color: red;">
+		<div id="menuBtContainer">
 			<img id="logo" src="/assets/logo.svg" style="height: 32px; margin: 1px auto 0 7px;"/>
 			<button id="menuBt">
 				<svg id="menuSVG" viewBox="0 0 32 27">
@@ -200,7 +200,7 @@ export default class zMainMenu extends HTMLElement {
 				shadowDiv.onclick = this.showMenu
 				menuBtContainer.style.width = '300px'
 				menu.style.left = '0'
-				logo.src = `${app.darkTheme? '/assets/logo.svg' : '/assets/white-logo.svg'}`
+				logo.src = `${ app.darkTheme ? '/assets/logo.svg' : '/assets/white-logo.svg' }`
 				setTimeout(() => {
 					let animationElements = Array.from(this.shadowRoot.querySelectorAll('.showAnimation'))
 					animationElements.map((element) => {
@@ -248,9 +248,7 @@ export default class zMainMenu extends HTMLElement {
 		this.shadowRoot.querySelector('#defaultTitle').textContent = document.title
 		window.addEventListener('hashchange', () => {
 			if (this.showingMenu) {
-				setTimeout(() => {
-					this.showMenu()
-				}, 0)
+				this.showMenu()
 			}
 		})
 	}
