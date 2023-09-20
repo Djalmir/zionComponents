@@ -93,6 +93,9 @@ export default class zMenuItem extends HTMLElement {
 			this.onclick = () => {
 				try {
 					location.hash = this.path
+					// setTimeout(() => {
+					// 	deepSelectorAll('#mainMenu')[0].showMenu()
+					// }, 0)
 				}
 				catch {
 					console.error(`Path '${ path }' not found.`)

@@ -6,4 +6,5 @@ app.routes = {
 	'#/about': About
 }
 
+console.log('aqui vai')
 mountApp(app.routes)

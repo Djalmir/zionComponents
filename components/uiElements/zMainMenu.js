@@ -114,27 +114,8 @@ style.textContent = /*css*/`
 		box-shadow: 1px 1px 2px var(--dark-bg4-transparent);
 	}
 
-	#logoWrapper {
-		margin: auto 0 -5px 0;
-		background: var(--dark-bg1-transparent);
-		padding: 7px 17px;
-		box-shadow: 0 -1px 2px var(--dark-bg1);
-	}
-
-	:host(.lightTheme) #logoWrapper {
-		background: var(--light-bg1-transparent);
-		box-shadow: 0 -1px 2px var(--dark-bg4-transparent);
-	}
-
-	#logo {
-		-webkit-user-drag: none;
-		display: block;
-		margin: auto;
-		width: 50%;
-	}
-
 	#shadow {
-		transform: scale(0);
+		/*transform: scale(0);*/
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -142,9 +123,10 @@ style.textContent = /*css*/`
 		height: 100vh;
 		background: var(--dark-bg1-transparent);
 		opacity: 0;
-		transition: opacity .2s;
+		transition: opacity .2s, backdrop-filter .2s ease-in;
 		display: block;
-		/*backdrop-filter: blur(2px);*/
+		pointer-events: none;
+		backdrop-filter: blur(0px);
 	}
 
 	:host(.lightTheme) #shadow {
@@ -166,14 +148,12 @@ template.innerHTML = /*html*/`
 					rateIt: 10
 				}
 			}">About</z-menuitem>
-			<div id="logoWrapper">
-				<img src="/assets/logo.png" id="logo"/>
-			</div>
 		</slot>
 	</nav>
 
 	<header>
-		<div id="menuBtContainer">
+		<div id="menuBtContainer" style="fill: red; color: red;">
+			<img id="logo" src="/assets/logo.svg" style="height: 32px; margin: 1px auto 0 7px;"/>
 			<button id="menuBt">
 				<svg id="menuSVG" viewBox="0 0 32 27">
 					<g style="stroke-width:6; stroke-linecap:round;">
@@ -212,40 +192,49 @@ export default class zMainMenu extends HTMLElement {
 			let menuBtContainer = this.shadowRoot.querySelector('#menuBtContainer')
 			let menuSVG = this.shadowRoot.querySelector('#menuSVG')
 			let menu = this.shadowRoot.querySelector('#menu')
+			let logo = this.shadowRoot.querySelector('#logo')
 			if (this.showingMenu) {
-				shadowDiv.style.transform = 'scale(1)'
+				// shadowDiv.style.transform = 'scale(1)'
+				shadowDiv.style.pointerEvents = 'all'
 				shadowDiv.style.opacity = '1'
 				shadowDiv.onclick = this.showMenu
 				menuBtContainer.style.width = '300px'
 				menu.style.left = '0'
-
+				logo.src = `${app.darkTheme? '/assets/logo.svg' : '/assets/white-logo.svg'}`
 				setTimeout(() => {
 					let animationElements = Array.from(this.shadowRoot.querySelectorAll('.showAnimation'))
 					animationElements.map((element) => {
 						element.beginElement()
 					})
 					menuSVG.style.transform = "rotateZ(180deg)"
+					setTimeout(() => {
+						shadowDiv.style.backdropFilter = 'blur(5px)'
+					}, 75)
 				}, 125)
 			}
 			else {
-				shadowDiv.style.opacity = '0'
-				shadowDiv.addEventListener('transitionend', this.removeShadow)
-				shadowDiv.onclick = null
-				menuBtContainer.style.width = '40px'
-				menu.style.left = '-310px'
+				shadowDiv.style.backdropFilter = 'blur(0px)'
+				setTimeout(() => {
+					shadowDiv.style.opacity = '0'
+					shadowDiv.addEventListener('transitionend', this.removeShadow)
+					shadowDiv.onclick = null
+					menuBtContainer.style.width = '40px'
+					menu.style.left = '-310px'
 
-				let animationElements = Array.from(this.shadowRoot.querySelectorAll('.hideAnimation'))
-				animationElements.map((element) => {
-					element.beginElement()
-				})
-				menuSVG.style.transform = "rotateZ(0deg)"
+					let animationElements = Array.from(this.shadowRoot.querySelectorAll('.hideAnimation'))
+					animationElements.map((element) => {
+						element.beginElement()
+					})
+					menuSVG.style.transform = "rotateZ(0deg)"
+				}, 200)
 			}
 		}
 
 		this.removeShadow = () => {
 			let shadowDiv = this.shadowRoot.querySelector('#shadow')
 			shadowDiv.removeEventListener('transitionend', this.removeShadow)
-			shadowDiv.style.transform = 'scale(0)'
+			// shadowDiv.style.transform = 'scale(0)'
+			shadowDiv.style.pointerEvents = 'none'
 		}
 
 		setTimeout(() => {
@@ -258,8 +247,11 @@ export default class zMainMenu extends HTMLElement {
 		this.shadowRoot.querySelector('#shadow').onclick = this.showMenu
 		this.shadowRoot.querySelector('#defaultTitle').textContent = document.title
 		window.addEventListener('hashchange', () => {
-			if (this.showingMenu)
-				this.showMenu()
+			if (this.showingMenu) {
+				setTimeout(() => {
+					this.showMenu()
+				}, 0)
+			}
 		})
 	}
 }
