@@ -302,22 +302,18 @@ export default class zTextarea extends HTMLElement {
 
 	connectedCallback() {
 		let textarea = this.shadowRoot.querySelector('textarea')
+
+		// Observa mudanças no DOM
+		const observer = new MutationObserver(() => {
+			this.updateTextareaStyle()
+		})
+		observer.observe(this, { attributes: true })
+
 		setTimeout(() => {
 			this.style.setProperty('--input-left', textarea.getBoundingClientRect().x - this.getBoundingClientRect().x + 7 + 'px')
 			setTimeout(() => {
 				this.shadowRoot.querySelector('b').style.transition = 'all .2s ease-out, background 0s, color 0s'
 			}, 250)
-
-
-			// Observa mudanças no DOM
-			const observer = new MutationObserver(() => {
-				this.updateTextareaStyle()
-			})
-			observer.observe(this, { attributes: true })
-			// Atualiza o tamanho da textarea inicialmente
-			this.updateTextareaStyle()
-
-
 		}, 0)
 
 		const { internals: { form } } = this
