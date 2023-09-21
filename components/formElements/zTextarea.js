@@ -312,7 +312,7 @@ export default class zTextarea extends HTMLElement {
 
 		textarea.addEventListener('keydown', (e) => {
 			// console.log('this.internals', this.internals)
-			if (e.key == 'Enter' && form)
+			if (e.key == 'Enter' && form && !e.shiftKey)
 				form.onsubmit()
 		})
 
