@@ -235,7 +235,7 @@ export default class zTextarea extends HTMLElement {
 				if (++attempts <= 10) {
 					setTimeout(() => {
 						this.updateTextareaStyle()
-					}, 100)
+					}, 500)
 				}
 				else
 					console.error("Could not get z-textarea's correct styles.")
