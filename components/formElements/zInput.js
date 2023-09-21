@@ -237,6 +237,23 @@ export default class zInput extends HTMLElement {
 
 
 	connectedCallback() {
+		let input = this.shadowRoot.querySelector('input')
+		let autofocused = false
+
+		if (this.autofocus) {
+			// Observa quando o componente está visível
+			const intersectionObserver = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting && !autofocused) {
+						autofocused = true
+						// O elemento está visível na tela
+						input.focus()
+					}
+				})
+			}, { threshold: 0.1 })  // threshold define a porcentagem do elemento que deve estar visível para disparar a callback
+			intersectionObserver.observe(input)
+		}
+
 		setTimeout(() => {
 			this.shadowRoot.host.style.setProperty('--input-left', this.shadowRoot.querySelector('input').getBoundingClientRect().x - this.getBoundingClientRect().x + 7 + 'px')
 			setTimeout(() => {

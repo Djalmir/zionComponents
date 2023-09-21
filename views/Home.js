@@ -180,7 +180,7 @@ template.innerHTML = /*html*/`
 			<div class="card">
 				<b class="title">Inputs</b>
 				<div class="flexDiv">
-					<z-input placeholder="Nome" class="dark-bg2 input" z-model="name"></z-input>
+					<z-input placeholder="Nome" class="dark-bg2 input" z-model="name" autofocus></z-input>
 					<z-input type="tel" placeholder="Whatsapp" z-oninput="setPhoneMask" class="dark-bg2 input">
 						<!--<z-icon class="message-circle" size="1.5" slot="left-slot" style="transform: translateY(2px); padding: 0 3px; stroke: transparent"></z-icon>-->
 					</z-input>
