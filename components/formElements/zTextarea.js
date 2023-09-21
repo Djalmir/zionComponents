@@ -229,8 +229,31 @@ export default class zTextarea extends HTMLElement {
 		})
 		this.shadowRoot.querySelector('b').innerText = this.getAttribute('placeholder') || this.placeholder
 
-		this.checkValidity = () => {
-			return this.textarea.checkValidity()
+		let attempts = 0
+		this.updateTextareaStyle = () => {
+			if (!this.offsetWidth) {
+				if (++attempts <= 10) {
+					setTimeout(() => {
+						this.updateTextareaStyle()
+					}, 100)
+				}
+				else
+					console.error("Could not get z-textarea's correct styles.")
+			}
+			else {
+				attempts = 0
+				let textarea = this.shadowRoot.querySelector('textarea')
+				textarea.style.width = this.offsetWidth - 4 + 'px'
+				textarea.style.height = this.offsetHeight - 4 + 'px'
+				textarea.style.minWidth = this.shadowRoot.querySelector('b').offsetWidth + 14 + 'px'
+				textarea.style.minHeight = this.shadowRoot.querySelector('b').offsetHeight + 17 + 'px'
+				let slotsWidth = (this.querySelector("[slot='left-slot']")?.offsetWidth || 0) + (this.querySelector("[slot='right-slot']")?.offsetWidth || 0)
+				if (this.style.maxWidth)
+					this.textarea.style.maxWidth = this.style.maxWidth.replace('px', '') - 4 - slotsWidth + 'px'
+				if (this.style.maxHeight)
+					this.textarea.style.maxHeight = this.style.maxHeight.replace('px', '') - 4 + 'px'
+			}
+
 		}
 
 	}
@@ -265,7 +288,7 @@ export default class zTextarea extends HTMLElement {
 
 
 	static get observedAttributes() {
-		return ['placeholder','style', 'value', 'maxlength', 'class', 'type', 'oninput', 'onblur', 'onchange', 'onclick', 'oncontextmenu', 'oncopy', 'ondblclick', 'onerror', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseup', 'onpaste', 'onsubmit', 'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart']
+		return ['placeholder', 'style', 'value', 'maxlength', 'class', 'type', 'oninput', 'onblur', 'onchange', 'onclick', 'oncontextmenu', 'oncopy', 'ondblclick', 'onerror', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseup', 'onpaste', 'onsubmit', 'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart']
 	}
 
 	attributeChangedCallback(attribute, oldValue, newValue) {
@@ -294,15 +317,7 @@ export default class zTextarea extends HTMLElement {
 		let textarea = this.shadowRoot.querySelector('textarea')
 		setTimeout(() => {
 			this.style.setProperty('--input-left', textarea.getBoundingClientRect().x - this.getBoundingClientRect().x + 7 + 'px')
-			textarea.style.width = this.offsetWidth - 4 + 'px'
-			textarea.style.height = this.offsetHeight - 4 + 'px'
-			textarea.style.minWidth = this.shadowRoot.querySelector('b').offsetWidth + 14 + 'px'
-			textarea.style.minHeight = this.shadowRoot.querySelector('b').offsetHeight + 17 + 'px'
-			let slotsWidth = (this.querySelector("[slot='left-slot']")?.offsetWidth || 0) + (this.querySelector("[slot='right-slot']")?.offsetWidth || 0)
-			if (this.style.maxWidth)
-				this.textarea.style.maxWidth = this.style.maxWidth.replace('px', '') - 4 - slotsWidth + 'px'
-			if (this.style.maxHeight)
-				this.textarea.style.maxHeight = this.style.maxHeight.replace('px', '') - 4 + 'px'
+			this.updateTextareaStyle()
 			setTimeout(() => {
 				this.shadowRoot.querySelector('b').style.transition = 'all .2s ease-out, background 0s, color 0s'
 			}, 250)
