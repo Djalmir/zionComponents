@@ -245,7 +245,8 @@ export default class zInput extends HTMLElement {
 			const intersectionObserver = new IntersectionObserver((entries) => {
 				entries.forEach(entry => {
 					if (entry.isIntersecting && !autofocused) {
-						autofocused = true
+						if (this.autofocus != 'once')
+							autofocused = true
 						// O elemento está visível na tela
 						input.focus()
 					}
