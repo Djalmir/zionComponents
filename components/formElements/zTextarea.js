@@ -314,10 +314,7 @@ export default class zTextarea extends HTMLElement {
 			entries.forEach(entry => {
 				if (entry.isIntersecting) {
 					// O elemento está visível na tela
-					console.log('Elemento está visível')
-				} else {
-					// O elemento não está visível na tela
-					console.log('Elemento não está visível')
+					this.updateTextareaStyle()
 				}
 			})
 		}, { threshold: 0.1 })  // threshold define a porcentagem do elemento que deve estar visível para disparar a callback
