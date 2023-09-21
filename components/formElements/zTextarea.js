@@ -309,6 +309,20 @@ export default class zTextarea extends HTMLElement {
 		})
 		observer.observe(this, { attributes: true })
 
+		// Observa quando o componente está visível
+		const intersectionObserver = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					// O elemento está visível na tela
+					console.log('Elemento está visível')
+				} else {
+					// O elemento não está visível na tela
+					console.log('Elemento não está visível')
+				}
+			})
+		}, { threshold: 0.1 })  // threshold define a porcentagem do elemento que deve estar visível para disparar a callback
+		intersectionObserver.observe(textarea)
+
 		setTimeout(() => {
 			this.style.setProperty('--input-left', textarea.getBoundingClientRect().x - this.getBoundingClientRect().x + 7 + 'px')
 			setTimeout(() => {
