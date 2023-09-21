@@ -265,7 +265,7 @@ export default class zTextarea extends HTMLElement {
 
 
 	static get observedAttributes() {
-		return ['placeholder', 'value', 'maxlength', 'class', 'type', 'oninput', 'onblur', 'onchange', 'onclick', 'oncontextmenu', 'oncopy', 'ondblclick', 'onerror', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseup', 'onpaste', 'onsubmit', 'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart']
+		return ['placeholder','style', 'value', 'maxlength', 'class', 'type', 'oninput', 'onblur', 'onchange', 'onclick', 'oncontextmenu', 'oncopy', 'ondblclick', 'onerror', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseup', 'onpaste', 'onsubmit', 'ontouchcancel', 'ontouchend', 'ontouchmove', 'ontouchstart']
 	}
 
 	attributeChangedCallback(attribute, oldValue, newValue) {

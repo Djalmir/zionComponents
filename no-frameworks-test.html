@@ -24,7 +24,7 @@
 					<z-icon class="chevron-left" size="1.5"></z-icon>
 				</div>
 			</z-input>
-			<z-button class="primary" onclick="alert(textInput.value)" style="display: flex; gap: 7px; align-items: center; padding: 4.2px 13px 4.2px 9px; white-space: nowrap; margin: 0;">
+			<z-button class="primary" onclick="()=>alert(textInput.value)" style="display: flex; gap: 7px; align-items: center; padding: 4.2px 13px 4.2px 9px; white-space: nowrap; margin: 0;">
 				<z-icon class="check" size="1.5" style="fill:var(--primary); stroke: var(--success-light); stroke-width: 1.5;"></z-icon>
 				<span>Clique aqui</span>
 			</z-button>
@@ -58,19 +58,19 @@
 				</div>
 			</z-number-input>
 		</div>
-		<div style="max-width: 410px; margin: 33px auto;">
+		<div style="max-width: 410px; margin: 33px auto; display: flex; flex-direction: column; align-items: center;">
 			<z-textarea placeholder="Deixe aqui suas opiniões" id="opinionsTextarea" class="secondary" style="width: 100%; max-width: 410px; max-height: 200px;" oninput="()=>console.log('textarea: ', this.value)">
 				<div slot="left-slot" style="padding: 5px 2px;">
 					<z-icon class="message-square" size="1.5"></z-icon>
 				</div>
 				<div slot="right-slot" style="display: grid; place-items: end; padding: 0 2px;">
-					<z-button class="primary" style="padding: 3px 7px; margin: 0 0 0 2px;" onclick="alert(opinionsTextarea.value)">
+					<z-button class="primary" style="padding: 3px 7px; margin: 0 0 0 2px;" onclick="()=>alert(opinionsTextarea.value)">
 						<z-icon class="check" style="fill: lime; stroke: lime; stroke-width: 2" size="1.7"></z-icon>
 					</z-button>
 				</div>
 			</z-textarea>
 		</div>
-		
+
 
 		<script type="module">
 			import { zInput } from './zionComponents.js';
