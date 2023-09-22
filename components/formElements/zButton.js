@@ -110,7 +110,6 @@ export default class zButton extends HTMLElement {
 		// }
 		if (this.style) {
 			this.shadowRoot.querySelector('button').style = this.style
-			this.style = null
 		}
 		// this.updateTheme()
 

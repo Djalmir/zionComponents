@@ -302,6 +302,7 @@ export default class zTextarea extends HTMLElement {
 
 	connectedCallback() {
 		let textarea = this.shadowRoot.querySelector('textarea')
+		let autofocused = false
 
 		// Observa mudanças no DOM
 		const observer = new MutationObserver(() => {
@@ -315,6 +316,11 @@ export default class zTextarea extends HTMLElement {
 				if (entry.isIntersecting) {
 					// O elemento está visível na tela
 					this.updateTextareaStyle()
+					if (this.autofocus && !autofocused) {
+						if (this.getAttribute('autofocus') == 'once')
+							autofocused = true
+						textarea.focus()
+					}
 				}
 			})
 		}, { threshold: 0.1 })  // threshold define a porcentagem do elemento que deve estar visível para disparar a callback
@@ -331,8 +337,10 @@ export default class zTextarea extends HTMLElement {
 
 		textarea.addEventListener('keydown', (e) => {
 			// console.log('this.internals', this.internals)
-			if (e.key == 'Enter' && form && !e.shiftKey)
+			if (e.key == 'Enter' && form && !e.shiftKey) {
 				form.onsubmit()
+				e.preventDefault()
+			}
 		})
 
 	}
