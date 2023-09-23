@@ -113,10 +113,10 @@ export default class zButton extends HTMLElement {
 		}
 		// this.updateTheme()
 
-		this.setAttribute('tabindex', '0')
-		this.addEventListener('focus', () => {
-			this.shadowRoot.querySelector('button').focus()
-		})
+		// this.setAttribute('tabindex', '0')
+		// this.addEventListener('focus', () => {
+		// 	this.shadowRoot.querySelector('button').focus()
+		// })
 
 	}
 
