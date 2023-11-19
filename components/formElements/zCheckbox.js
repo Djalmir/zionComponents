@@ -125,7 +125,7 @@ export default class zCheckbox extends HTMLElement {
 		})
 
 		this.label = null
-		if (this.shadowRoot.host.parentElement.tagName == 'LABEL')
+		if (this.shadowRoot.host.parentElement?.tagName == 'LABEL')
 			this.label = this.shadowRoot.host.parentElement
 		else if (this.getRootNode().querySelector(`[for="${ this.id }"]`))
 			this.label = this.getRootNode().querySelector(`[for="${ this.id }"]`)
